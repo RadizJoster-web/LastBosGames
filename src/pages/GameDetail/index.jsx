@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { PortableText } from "@portabletext/react";
@@ -6,6 +6,7 @@ import { ArrowLeft, Download, AlertTriangle } from "lucide-react";
 import { useGameDetail } from "../../hooks/useGames";
 import { urlFor } from "../../services/sanity";
 import ScreenshotLightbox from "../../components/game/ScreenshotLightbox";
+import ReportModal from "../../components/common/ReportModal";
 
 export default function GameDetail() {
   const { slug } = useParams();
@@ -14,6 +15,11 @@ export default function GameDetail() {
 
   // State untuk Lightbox
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   const openLightbox = (index) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -93,7 +99,7 @@ export default function GameDetail() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white border border-border-subtle p-6 rounded-lg">
+          <div className="flex flex-col gap-0 bg-white border border-border-subtle p-5 rounded-xl shadow-sm">
             <MetaItem
               label="Genre"
               value={game.genre?.map((g) => g.name).join(", ")}
@@ -153,28 +159,27 @@ export default function GameDetail() {
       </div>
 
       {/* AREA UNDUHAN - Brutalist Call to Action */}
-      <div className="bg-surface border-4 border-ink shadow-[8px_8px_0px_#0F0F0F] p-8 md:p-12 mt-8">
-        <h2 className="text-4xl font-display font-black text-ink uppercase mb-8 border-b-4 border-ink pb-4 flex items-center gap-3">
-          <Download size={36} className="text-primary" /> JALUR UNDUHAN
+      <div className="bg-surface border border-border-subtle rounded-xl shadow-sm p-6 md:p-8 mt-4">
+        <h2 className="text-2xl font-display font-black text-ink uppercase mb-6 border-b border-border-subtle pb-4 flex items-center gap-3">
+          <Download size={24} className="text-primary" /> DOWNLOAD
         </h2>
 
         {game.downloadLinks?.length > 0 ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {game.downloadLinks.map((link, idx) => (
               <div
                 key={idx}
-                className="flex flex-col md:flex-row items-center justify-between bg-white border-2 border-ink p-4 gap-4"
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white border border-border-subtle rounded-lg p-4 gap-4 hover:border-primary transition-colors"
               >
-                <div className="text-center md:text-left">
-                  <h3 className="font-display font-bold text-xl uppercase">
+                <div>
+                  <h3 className="font-display font-bold text-lg uppercase text-ink leading-tight">
                     {link.sourceName}{" "}
-                    {link.optionalLabel && `- ${link.optionalLabel}`}
+                    {link.optionalLabel && (
+                      <span className="text-ink/60">
+                        - {link.optionalLabel}
+                      </span>
+                    )}
                   </h3>
-                  <span
-                    className={`text-sm font-bold uppercase tracking-widest ${link.status === "active" ? "text-green-600" : "text-red-600"}`}
-                  >
-                    Status: {link.status}
-                  </span>
                 </div>
 
                 {link.status === "active" ? (
@@ -182,17 +187,17 @@ export default function GameDetail() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-brutal w-full md:w-auto flex items-center justify-center gap-2"
+                    className="bg-primary text-white font-display text-sm font-bold px-6 py-3 rounded uppercase tracking-widest hover:bg-primary-hover transition-colors w-full sm:w-auto text-center shrink-0"
                   >
-                    MUNDUR & UNDUH{" "}
-                    <span className="text-sm">
+                    DOWNLOAD{" "}
+                    <span className="opacity-75 font-normal ml-1">
                       ({link.fileSize || "Unknown"})
                     </span>
                   </a>
                 ) : (
                   <button
                     disabled
-                    className="bg-border-subtle text-ink/50 font-display text-lg px-6 py-3 border-2 border-ink uppercase cursor-not-allowed"
+                    className="bg-border-subtle text-ink/50 font-display text-sm font-bold px-6 py-3 rounded uppercase w-full sm:w-auto cursor-not-allowed shrink-0"
                   >
                     TIDAK TERSEDIA
                   </button>
@@ -201,15 +206,18 @@ export default function GameDetail() {
             ))}
           </div>
         ) : (
-          <p className="font-display text-xl text-ink/60">
+          <p className="font-body text-ink/60">
             Tautan unduhan belum tersedia untuk target ini.
           </p>
         )}
 
-        {/* Tombol Report Data */}
-        <div className="mt-12 flex justify-end">
-          <button className="flex items-center gap-2 text-ink/60 hover:text-primary font-display font-bold uppercase tracking-widest transition-colors text-sm underline decoration-2 underline-offset-4">
-            <AlertTriangle size={16} /> Lapor Data Rusak / Salah
+        {/* Tombol Report Data yang lebih clean */}
+        <div className="mt-8 pt-6 border-t border-border-subtle flex justify-end">
+          <button
+            onClick={() => setIsReportModalOpen(true)} // Tambahkan onClick ini
+            className="flex items-center gap-2 text-ink/50 hover:text-primary font-body font-bold text-sm transition-colors"
+          >
+            <AlertTriangle size={16} /> Laporkan Informasi Salah
           </button>
         </div>
       </div>
@@ -223,6 +231,12 @@ export default function GameDetail() {
           onNavigate={navigateLightbox}
         />
       )}
+
+      <ReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        gameTitle={game.title}
+      />
     </div>
   );
 }
@@ -231,11 +245,13 @@ export default function GameDetail() {
 function MetaItem({ label, value }) {
   if (!value) return null;
   return (
-    <div className="flex flex-col">
-      <span className="text-xs font-display font-bold text-secondary uppercase tracking-widest mb-1">
+    <div className="flex justify-between items-center py-3 border-b border-border-subtle last:border-0 last:pb-0">
+      <span className="text-xs font-display font-bold text-secondary uppercase tracking-widest">
         {label}
       </span>
-      <span className="font-body text-ink font-medium">{value}</span>
+      <span className="font-body text-ink font-medium text-right text-sm">
+        {value}
+      </span>
     </div>
   );
 }

@@ -8,7 +8,6 @@ export default function ScreenshotLightbox({
   onClose,
   onNavigate,
 }) {
-  // Tutup dengan tombol Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
@@ -22,54 +21,53 @@ export default function ScreenshotLightbox({
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/90 backdrop-blur-sm p-4">
-      {/* Backdrop click to close */}
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink/95 backdrop-blur-md p-4">
+      {/* Backdrop */}
       <div className="absolute inset-0" onClick={onClose}></div>
 
-      {/* Brutalist Close Button */}
+      {/* Tombol Tutup di pojok atas */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 z-10 bg-surface border-4 border-ink p-2 shadow-[4px_4px_0px_#8A1010] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_#8A1010] transition-all"
+        className="absolute top-4 right-4 md:top-6 md:right-6 z-20 bg-surface border-2 border-ink p-2 hover:bg-white transition-colors rounded-sm"
       >
-        <X size={32} className="text-ink" />
+        <X size={28} className="text-ink" />
       </button>
 
-      {/* Navigasi Kiri */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onNavigate("prev");
-        }}
-        className="absolute left-4 md:left-10 z-10 bg-surface border-4 border-ink p-3 shadow-[4px_4px_0px_#8A1010] hover:-translate-y-1 hover:-translate-x-1 transition-all"
-      >
-        <ChevronLeft size={32} className="text-ink" />
-      </button>
-
-      {/* Gambar Utama */}
+      {/* Kontainer Gambar Utama */}
       <div
-        className="relative z-0 max-w-5xl max-h-[80vh] border-4 border-ink shadow-[8px_8px_0px_#0F0F0F] bg-black"
+        className="relative z-10 w-full max-w-5xl flex-grow flex items-center justify-center min-h-0 mb-6 mt-12 md:mt-0"
         onClick={(e) => e.stopPropagation()}
       >
         <img
           src={urlFor(images[currentIndex]).width(1200).url()}
           alt={`Screenshot ${currentIndex + 1}`}
-          className="w-full h-full max-h-[80vh] object-contain"
+          className="max-w-full max-h-[75vh] object-contain border-4 border-ink shadow-[8px_8px_0px_#0F0F0F] bg-black"
         />
-        <div className="absolute bottom-4 right-4 bg-ink text-white font-display px-3 py-1 text-sm border-2 border-white">
-          {currentIndex + 1} / {images.length}
-        </div>
       </div>
 
-      {/* Navigasi Kanan */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onNavigate("next");
-        }}
-        className="absolute right-4 md:right-10 z-10 bg-surface border-4 border-ink p-3 shadow-[4px_4px_0px_#8A1010] hover:-translate-y-1 hover:-translate-x-1 transition-all"
+      {/* Control Bar Navigasi (Selalu di bawah gambar, aman dari touch overlap) */}
+      <div
+        className="relative z-20 flex items-center justify-center gap-6 md:gap-10 shrink-0 mb-4"
+        onClick={(e) => e.stopPropagation()}
       >
-        <ChevronRight size={32} className="text-ink" />
-      </button>
+        <button
+          onClick={() => onNavigate("prev")}
+          className="bg-surface border-4 border-ink p-3 shadow-[4px_4px_0px_#8A1010] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
+        >
+          <ChevronLeft size={28} className="text-ink" />
+        </button>
+
+        <div className="bg-ink text-white font-display px-6 py-2 border-2 border-white text-lg tracking-widest">
+          {currentIndex + 1} / {images.length}
+        </div>
+
+        <button
+          onClick={() => onNavigate("next")}
+          className="bg-surface border-4 border-ink p-3 shadow-[4px_4px_0px_#8A1010] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
+        >
+          <ChevronRight size={28} className="text-ink" />
+        </button>
+      </div>
     </div>
   );
 }
