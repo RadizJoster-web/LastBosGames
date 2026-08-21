@@ -7,7 +7,7 @@ export default function Home() {
   const { games, isLoading, isError } = usePopularGames();
 
   return (
-    <div className="flex flex-col gap-20 md:gap-32 pb-16">
+    <div className="flex flex-col gap-20 md:gap-32 pb-16 overflow-x-hidden">
       {/* HERO SECTION - Clean & Modern */}
       <section className="relative pt-12 md:pt-24 flex flex-col justify-center min-h-[60vh]">
         {/* Efek glow modern yang halus sebagai background */}
@@ -19,7 +19,7 @@ export default function Home() {
             SISTEM AKTIF. SIAP DIUNDUH.
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-display font-black text-ink leading-[1.05] mb-8 tracking-tight">
+          <h1 className="text-5xl md:text-8xl font-display font-black text-ink leading-[1.05] mb-8 tracking-tight">
             HANCURKAN MUSUH <br />
             <span className="text-primary">TERKUATMU!</span>
           </h1>

@@ -81,3 +81,20 @@ export function useFilteredGames(search, platform, genre, region) {
 
   return { games: data, isLoading, isError: error };
 }
+
+export function useGameDetail(slug) {
+  // Query spesifik mengambil 1 game berdasarkan slug
+  const query = `*[_type == "game" && slug.current == "${slug}"][0] {
+    _id, title, slug, thumbnail, shortDescription, fullDescription,
+    platform[]->{name}, genre[]->{name}, region->{name},
+    language, fileSize, releaseYear, developer, publisher,
+    screenshots, downloadLinks
+  }`;
+
+  // Hanya jalankan fetch jika slug tersedia
+  const { data, error, isLoading } = useSWR(slug ? query : null, fetcher, {
+    revalidateOnFocus: false,
+  });
+
+  return { game: data, isLoading, isError: error };
+}

@@ -1,6 +1,13 @@
+import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
 export default function MainLayout() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 bg-primary border-b-4 border-ink shadow-[0px_4px_0px_#0F0F0F]">
@@ -8,13 +15,23 @@ export default function MainLayout() {
           {/* Logo */}
           <Link
             to="/"
-            className="font-display text-3xl font-black text-white tracking-widest hover:scale-105 transition-transform origin-left"
+            onClick={closeMenu}
+            className="font-display text-3xl font-black text-white tracking-widest hover:scale-105 transition-transform origin-left relative z-50"
             style={{ textShadow: "3px 3px 0px #0F0F0F" }}
           >
-            LBG
+            LAST BOSS
           </Link>
 
-          {/* Navigasi Desktop - Neo Brutalist Item */}
+          {/* Tombol Toggle Mobile */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden relative z-50 p-2 text-white hover:bg-surface hover:text-ink border-2 border-transparent hover:border-ink transition-colors flex items-center justify-center"
+            aria-label="Toggle Navigation"
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+
+          {/* Navigasi Desktop */}
           <nav className="hidden md:flex gap-4 font-display font-bold text-lg">
             <NavItem to="/">HOME</NavItem>
             <NavItem to="/games">GAMES</NavItem>
@@ -22,6 +39,24 @@ export default function MainLayout() {
             <NavItem to="/support">SUPPORT</NavItem>
           </nav>
         </div>
+
+        {/* Dropdown Navigasi Mobile */}
+        {isMobileMenuOpen && (
+          <nav className="md:hidden absolute top-20 left-0 w-full bg-primary border-b-4 border-ink shadow-[0px_8px_0px_#0F0F0F] z-40 flex flex-col p-4 gap-3">
+            <MobileNavItem to="/" onClick={closeMenu}>
+              HOME
+            </MobileNavItem>
+            <MobileNavItem to="/games" onClick={closeMenu}>
+              GAMES
+            </MobileNavItem>
+            <MobileNavItem to="/emulator" onClick={closeMenu}>
+              EMULATOR
+            </MobileNavItem>
+            <MobileNavItem to="/support" onClick={closeMenu}>
+              SUPPORT
+            </MobileNavItem>
+          </nav>
+        )}
       </header>
 
       <main className="flex-grow container mx-auto px-4 py-12">
@@ -39,7 +74,7 @@ export default function MainLayout() {
   );
 }
 
-// Komponen NavItem khusus untuk efek taktil
+// Komponen NavItem Desktop
 function NavItem({ to, children }) {
   return (
     <Link
@@ -48,6 +83,20 @@ function NavItem({ to, children }) {
                  hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[5px_5px_0px_#0F0F0F] hover:bg-white
                  active:translate-y-1 active:translate-x-1 active:shadow-none 
                  transition-all duration-100 ease-in-out uppercase"
+    >
+      {children}
+    </Link>
+  );
+}
+
+// Komponen NavItem Mobile
+function MobileNavItem({ to, onClick, children }) {
+  return (
+    <Link
+      to={to}
+      onClick={onClick}
+      className="bg-surface text-ink px-4 py-3 border-2 border-ink text-center font-display font-bold text-lg uppercase tracking-wider
+                 active:bg-border-subtle active:translate-y-1 transition-all"
     >
       {children}
     </Link>
