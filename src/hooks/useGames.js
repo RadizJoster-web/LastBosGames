@@ -29,3 +29,55 @@ export function usePopularGames() {
     isError: error,
   };
 }
+
+// Hook untuk mengambil opsi filter secara dinamis
+export function useFilterOptions() {
+  const query = `{
+    "platforms": *[_type == "platform"] | order(name asc) {name, "slug": slug.current},
+    "genres": *[_type == "genre"] | order(name asc) {name, "slug": slug.current},
+    "regions": *[_type == "region"] | order(name asc) {name, code}
+  }`;
+
+  const { data, error, isLoading } = useSWR(query, fetcher, {
+    revalidateOnFocus: false,
+  });
+
+  return { options: data, isLoading, isError: error };
+}
+
+// Hook untuk mengambil game dengan parameter filter
+export function useFilteredGames(search, platform, genre, region) {
+  // Membangun query GROQ secara dinamis berdasarkan state filter
+  let queryConditions = `_type == "game"`;
+
+  if (search) {
+    // Sanity match operator untuk pencarian teks case-insensitive
+    queryConditions += ` && title match "*${search}*"`;
+  }
+  if (platform) {
+    queryConditions += ` && "${platform}" in platform[]->slug.current`;
+  }
+  if (genre) {
+    queryConditions += ` && "${genre}" in genre[]->slug.current`;
+  }
+  if (region) {
+    queryConditions += ` && region->code == "${region}"`;
+  }
+
+  const query = `*[${queryConditions}] | order(createdAt desc) {
+    _id,
+    title,
+    slug,
+    thumbnail,
+    shortDescription,
+    platform[]->{name},
+    genre[]->{name},
+    region->{name}
+  }`;
+
+  const { data, error, isLoading } = useSWR(query, fetcher, {
+    revalidateOnFocus: false,
+  });
+
+  return { games: data, isLoading, isError: error };
+}
