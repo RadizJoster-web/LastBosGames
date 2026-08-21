@@ -1,27 +1,30 @@
 @import "tailwindcss";
 
-/* 1. Definisikan Design System di dalam @theme */
 @theme {
-  /* Palet Warna Utama - Last Boss Theme */
-  --color-background: #f5f4f0;
-  --color-surface: #ebebe6;
-  --color-ink: #1a1a1a;
-  --color-primary: #8a1010;
-  --color-primary-hover: #660b0b;
+  /* Palet Warna - Dipertajam untuk Neo-Brutalism */
+  --color-background: #f4f1eb; /* Sedikit lebih bertekstur/kertas usang */
+  --color-surface: #ffffff; /* Putih murni untuk kontras maksimal dengan border */
+  --color-ink: #0f0f0f; /* Hitam pekat untuk border dan bayangan */
+  --color-primary: #8a1010; /* Oxblood / Boss Red */
+  --color-primary-hover: #d31a1a; /* Merah yang lebih agresif saat ditekan */
   --color-secondary: #2c3e50;
-  --color-border-subtle: #d1d1cb;
 
-  /* Font */
+  /* Font Gamer & Display */
   --font-display: "Oswald", sans-serif;
   --font-body: "Inter", sans-serif;
+
+  /* Custom Hard Shadows khas Neo-Brutalism */
+  --shadow-brutal: 4px 4px 0px 0px var(--color-ink);
+  --shadow-brutal-hover: 6px 6px 0px 0px var(--color-primary);
+  --shadow-brutal-pressed: 0px 0px 0px 0px var(--color-ink);
 }
 
-/* 2. Base Styles untuk HTML dasar */
 @layer base {
   body {
-    /* Sekarang kita bisa menggunakan utility class dari variabel di atas */
     @apply bg-background text-ink font-body;
-    -webkit-font-smoothing: antialiased;
+    /* Memberikan tekstur background titik-titik (dot grid) ala retro gaming */
+    background-image: radial-gradient(#d1d1cb 1px, transparent 1px);
+    background-size: 20px 20px;
   }
 
   h1,
@@ -30,18 +33,25 @@
   h4,
   h5,
   h6 {
-    @apply font-display uppercase tracking-[0.05em];
+    @apply font-display uppercase tracking-wider;
   }
 }
 
-/* 3. Custom Components */
 @layer components {
-  /* Bentukan tombol dasar dengan gaya "tajam" */
-  .btn-primary {
-    @apply bg-primary text-white font-bold py-3 px-6 transition-colors duration-200 font-display rounded-[2px];
+  /* Tombol utama dengan efek ditekan fisik */
+  .btn-brutal {
+    @apply bg-primary text-white font-display text-lg px-6 py-3 border-3 border-ink uppercase tracking-widest transition-all duration-75 ease-in-out block text-center;
+    box-shadow: var(--shadow-brutal);
   }
 
-  .btn-primary:hover {
+  .btn-brutal:hover {
     @apply bg-primary-hover;
+    box-shadow: var(--shadow-brutal-hover);
+    transform: translate(-2px, -2px);
+  }
+
+  .btn-brutal:active {
+    box-shadow: var(--shadow-brutal-pressed);
+    transform: translate(4px, 4px);
   }
 }
