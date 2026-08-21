@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* 1. Definisikan Design System di dalam @theme */
+@theme {
+  /* Palet Warna Utama - Last Boss Theme */
+  --color-background: #f5f4f0;
+  --color-surface: #ebebe6;
+  --color-ink: #1a1a1a;
+  --color-primary: #8a1010;
+  --color-primary-hover: #660b0b;
+  --color-secondary: #2c3e50;
+  --color-border-subtle: #d1d1cb;
+
+  /* Font */
+  --font-display: "Oswald", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+/* 2. Base Styles untuk HTML dasar */
+@layer base {
+  body {
+    /* Sekarang kita bisa menggunakan utility class dari variabel di atas */
+    @apply bg-background text-ink font-body;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display uppercase tracking-[0.05em];
+  }
+}
+
+/* 3. Custom Components */
+@layer components {
+  /* Bentukan tombol dasar dengan gaya "tajam" */
+  .btn-primary {
+    @apply bg-primary text-white font-bold py-3 px-6 transition-colors duration-200 font-display rounded-[2px];
+  }
+
+  .btn-primary:hover {
+    @apply bg-primary-hover;
+  }
+}
