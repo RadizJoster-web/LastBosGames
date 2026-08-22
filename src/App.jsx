@@ -4,8 +4,8 @@ import MainLayout from "./components/layout/MainLayout";
 import Home from "./pages/Home";
 import Games from "./pages/Games";
 import GameDetail from "./pages/GameDetail";
-// import Emulator from "./pages/Emulator";
-// import SupportUs from "./pages/SupportUs";
+import Emulator from "./pages/Emulator";
+import SupportUs from "./pages/SupportUs";
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
             <Route path="/game/:slug" element={<GameDetail />} />
-            {/* <Route path="/emulator" element={<Emulator />} /> */}
-            {/* <Route path="/support" element={<SupportUs />} /> */}
+            <Route path="/emulator" element={<Emulator />} />
+            <Route path="/support" element={<SupportUs />} />
           </Route>
         </Routes>
       </Router>

@@ -42,7 +42,7 @@ export default function GameCard({ game }) {
 
         <div className="mt-auto flex items-center justify-between text-xs font-display font-bold text-ink uppercase tracking-widest border-t-2 border-ink border-dashed pt-4">
           <span className="bg-ink text-white px-2 py-1">
-            {game.genre?.[0]?.name || "UNKNOWN"}
+           {game.genre?.map(g => g.name).join(', ') || 'UNKNOWN'}
           </span>
           <span>{game.region?.name || "GLOBAL"}</span>
         </div>

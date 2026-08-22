@@ -44,7 +44,7 @@ export default function Home() {
               DUKUNG KAMI
             </Link>
           </div>
-        </div>
+        </div>  
       </section>
 
       {/* POPULAR GAMES SECTION */}

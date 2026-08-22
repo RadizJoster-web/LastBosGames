@@ -98,3 +98,30 @@ export function useGameDetail(slug) {
 
   return { game: data, isLoading, isError: error };
 }
+
+// Hook untuk mengambil daftar Emulator
+export function useEmulators() {
+  const query = `*[_type == "emulator"] | order(name asc) {
+    _id, name, slug, logo, description, downloadUrl, sourceType,
+    supportedPlatform->{name}
+  }`;
+
+  const { data, error, isLoading } = useSWR(query, fetcher, {
+    revalidateOnFocus: false,
+  });
+
+  return { emulators: data, isLoading, isError: error };
+}
+
+// Hook untuk mengambil daftar Supporter (hanya yang displayStatus-nya true)
+export function useSupporters() {
+  const query = `*[_type == "supporter" && displayStatus == true] | order(donationDate desc) {
+    _id, username, optionalMessage, donationDate
+  }`;
+
+  const { data, error, isLoading } = useSWR(query, fetcher, {
+    revalidateOnFocus: false,
+  });
+
+  return { supporters: data, isLoading, isError: error };
+}

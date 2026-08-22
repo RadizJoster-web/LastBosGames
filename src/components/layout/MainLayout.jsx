@@ -12,14 +12,20 @@ export default function MainLayout() {
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 bg-primary border-b-4 border-ink shadow-[0px_4px_0px_#0F0F0F]">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - Direvisi menjadi bentuk Lencana/Badge Brutalist */}
           <Link
             to="/"
             onClick={closeMenu}
-            className="font-display text-3xl font-black text-white tracking-widest hover:scale-105 transition-transform origin-left relative z-50"
-            style={{ textShadow: "3px 3px 0px #0F0F0F" }}
+            className="relative z-50 group flex items-center"
+            aria-label="Beranda"
           >
-            LAST BOSS
+            <div className="bg-white border-2 border-ink shadow-[3px_3px_0px_#0F0F0F] group-hover:-translate-y-1 group-hover:-translate-x-1 group-hover:shadow-[5px_5px_0px_#0F0F0F] active:translate-y-0 active:translate-x-0 active:shadow-[1px_1px_0px_#0F0F0F] transition-all duration-150 flex items-center justify-center p-1 md:p-1.5 w-12 h-12 md:w-14 md:h-14">
+              <img
+                src="/icon.jpg"
+                alt="LBG Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
           </Link>
 
           {/* Tombol Toggle Mobile */}
