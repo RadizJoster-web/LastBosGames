@@ -16,16 +16,16 @@ export default function ReportModal({ isOpen, onClose, gameTitle }) {
     setStatus("loading");
 
     try {
-      // TODO: Ganti nilainya dengan Credentials dari Dashboard EmailJS Anda
+      // Menggunakan Environment Variables bawaan Vite
       await emailjs.send(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
           game_title: gameTitle,
           report_reason: reason,
           message: message || "Tidak ada pesan tambahan.",
         },
-        "YOUR_PUBLIC_KEY",
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       );
 
       setStatus("success");
