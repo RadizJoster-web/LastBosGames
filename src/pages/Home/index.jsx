@@ -9,17 +9,35 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-20 md:gap-32 pb-16 overflow-x-hidden">
       {/* HERO SECTION - Clean & Modern */}
-      <section className="relative pt-12 md:pt-24 flex flex-col justify-center min-h-[60vh]">
+      <section className="relative pt-12 md:pt-24 pb-12 flex flex-col justify-center min-h-[60vh] overflow-hidden">
         {/* Efek glow modern yang halus sebagai background */}
         <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/4 blur-[100px] -z-10 pointer-events-none"></div>
 
-        <div className="relative z-10 max-w-4xl">
+        {/* Gambar Karakter Nostalgia - Berada di belakang teks */}
+        <div
+          className="absolute right-0 bottom-0 top-0 w-full md:w-[60%] lg:w-[80%] z-0 opacity-15 md:opacity-90 pointer-events-none flex justify-end items-end md:items-center"
+          style={{
+            // Masking agar sisi kiri gambar memudar halus menjadi transparan
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 50%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 50%)",
+          }}
+        >
+          <img
+            src="/hero section.jpg"
+            alt="Nostalgic Boss Characters"
+            className="w-full h-full object-cover object-right md:object-contain"
+          />
+        </div>
+
+        {/* Konten Teks - z-10 agar selalu di atas gambar */}
+        <div className="relative z-10 max-w-2xl lg:max-w-4xl">
           <div className="inline-flex items-center gap-3 text-primary font-display font-bold tracking-widest mb-6 text-sm">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
             SISTEM AKTIF. SIAP DIUNDUH.
           </div>
 
-          <h1 className="text-5xl md:text-8xl font-display font-black text-ink leading-[1.05] mb-8 tracking-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-ink leading-[1.05] mb-8 tracking-tight">
             HANCURKAN MUSUH <br />
             <span className="text-primary">TERKUATMU!</span>
           </h1>
@@ -44,7 +62,7 @@ export default function Home() {
               DUKUNG KAMI
             </Link>
           </div>
-        </div>  
+        </div>
       </section>
 
       {/* POPULAR GAMES SECTION */}
