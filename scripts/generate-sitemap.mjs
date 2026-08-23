@@ -3,14 +3,14 @@ import { createClient } from "@sanity/client";
 
 // Inisialisasi client Sanity khusus script build
 const client = createClient({
-  projectId: "ID_PROJECT_SANITY_ANDA", // Ganti dengan Project ID Anda
+  projectId: "liftuy21", // Ganti dengan Project ID Anda
   dataset: "production",
   apiVersion: "2024-01-01",
   useCdn: false,
 });
 
 async function generateSitemap() {
-  const DOMAIN = "https://lastbossgame.com"; // Ganti dengan domain asli Anda
+  const DOMAIN = "https://last-bos-games.vercel.app/";
 
   // Query seluruh slug game yang ada di Sanity
   const games = await client.fetch(
