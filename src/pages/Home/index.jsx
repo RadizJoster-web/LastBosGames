@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-20 md:gap-32 pb-16 overflow-x-hidden">
       <Helmet>
-        <title>Last Boss Games | Game Download Catalog</title>
+        <title>LBG | Game Download Catalog</title>
         <meta
           name="description"
           content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
@@ -19,7 +19,7 @@ export default function Home() {
         <link rel="canonical" href="https://last-bos-games.vercel.app/" />
         <meta
           property="og:title"
-          content="Last Boss Game | Game Download Catalog"
+          content="Last Bos Games | Game Download Catalog"
         />
         <meta
           property="og:description"

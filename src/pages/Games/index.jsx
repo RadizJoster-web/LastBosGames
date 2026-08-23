@@ -47,7 +47,7 @@ export default function Games() {
   return (
     <div className="flex flex-col gap-10 pb-16">
       <Helmet>
-        <title>Last Boss Games | Games</title>
+        <title>LBG | Games</title>
         <meta
           name="description"
           content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
@@ -55,7 +55,7 @@ export default function Games() {
         <link rel="canonical" href="https://last-bos-games.vercel.app/" />
         <meta
           property="og:title"
-          content="Last Boss Games | Games"
+          content="Last Bos Games | Games"
         />
         <meta
           property="og:description"

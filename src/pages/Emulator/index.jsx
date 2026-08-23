@@ -16,13 +16,13 @@ export default function Emulator() {
   return (
     <div className="flex flex-col gap-10 pb-16">
       <Helmet>
-        <title>Last Boss Games | Emulators</title>
+        <title>LBG | Emulators</title>
         <meta
           name="description"
           content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
         />
         <link rel="canonical" href="https://last-bos-games.vercel.app/" />
-        <meta property="og:title" content="Last Boss Games | Emulators" />
+        <meta property="og:title" content="Last Bos Games | Emulators" />
         <meta
           property="og:description"
           content="Katalog game pilihan dengan tautan unduhan langsung."

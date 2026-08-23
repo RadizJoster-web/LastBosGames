@@ -68,7 +68,7 @@ export default function GameDetail() {
     <div className="flex flex-col gap-12 pb-16">
       {game && (
         <Helmet>
-          <title>{`${game.title} | Last Boss Games`}</title>
+          <title>{`${game.title} | LBG`}</title>
           <meta name="description" content={description} />
           <link rel="canonical" href={canonicalUrl} />
 
@@ -77,7 +77,7 @@ export default function GameDetail() {
           <meta property="og:site_name" content="Last Boss Game" />
           <meta
             property="og:title"
-            content={`${game.title} | Last Boss Game`}
+            content={`${game.title} | Last Bos Games`}
           />
           <meta property="og:description" content={description} />
           <meta property="og:url" content={canonicalUrl} />
@@ -87,7 +87,7 @@ export default function GameDetail() {
           <meta name="twitter:card" content="summary_large_image" />
           <meta
             name="twitter:title"
-            content={`${game.title} | Last Boss Game`}
+            content={`${game.title} | Last Bos Games`}
           />
           <meta name="twitter:description" content={description} />
           <meta name="twitter:image" content={imageUrl} />

@@ -13,13 +13,13 @@ export default function SupportUs() {
   return (
     <div className="flex flex-col gap-16 pb-16">
       <Helmet>
-        <title>Last Boss Games | Support Us</title>
+        <title>LBG | Support Us</title>
         <meta
           name="description"
           content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
         />
         <link rel="canonical" href="https://last-bos-games.vercel.app/" />
-        <meta property="og:title" content="Last Boss Games | Support Us" />
+        <meta property="og:title" content="Last Bos Games | Support Us" />
         <meta
           property="og:description"
           content="Katalog game pilihan dengan tautan unduhan langsung."
