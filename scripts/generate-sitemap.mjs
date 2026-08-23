@@ -10,47 +10,39 @@ const client = createClient({
 });
 
 async function generateSitemap() {
-  const DOMAIN = "https://last-bos-games.vercel.app/";
+  // Pastikan tidak ada tanda '/' di akhir URL domain Anda
+  const DOMAIN = "https://last-bos-games.vercel.app";
 
-  // Query seluruh slug game yang ada di Sanity
+  // Fungsi penyeimbang URL untuk mencegah garis miring ganda[cite: 1]
+  const normalizePath = (path) => `${DOMAIN}${path === "" ? "/" : path}`;
+
+  // Mengambil data slug dari Sanity
   const games = await client.fetch(
     `*[_type == "game"]{ "slug": slug.current, _updatedAt }`,
   );
 
-  // Halaman statis utama
+  // Daftar halaman statis
   const staticPages = ["", "/games", "/emulator", "/support"];
 
+  // Merakit kerangka sitemap dengan namespace yang benar (sitemaps.org)[cite: 1]
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
-  <!-- Halaman Statis -->
-  ${staticPages
-    .map(
-      (page) => `
-    <url>
-      <loc>${DOMAIN}${page}</loc>
-      <changefreq>daily</changefreq>
-      <priority>${page === "" ? "1.0" : "0.8"}</priority>
-    </url>`,
-    )
-    .join("")}
-
-  <!-- Halaman Game Dinamis -->
-  ${games
-    .map(
-      (game) => `
-    <url>
-      <loc>${DOMAIN}/game/${game.slug}</loc>
-      <lastmod>${new Date(game._updatedAt).toISOString()}</lastmod>
-      <changefreq>weekly</changefreq>
-      <priority>0.9</priority>
-    </url>`,
-    )
-    .join("")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${staticPages
+  .map(
+    (page) =>
+      `  <url><loc>${normalizePath(page)}</loc><changefreq>daily</changefreq><priority>${page === "" ? "1.0" : "0.8"}</priority></url>`,
+  )
+  .join("\n")}
+${games
+  .map(
+    (game) =>
+      `  <url><loc>${normalizePath(`/game/${encodeURIComponent(game.slug)}`)}</loc><lastmod>${new Date(game._updatedAt).toISOString()}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>`,
+  )
+  .join("\n")}
 </urlset>`;
 
-  // Simpan file ke folder public agar bisa diakses Google di domain.com/sitemap.xml
   fs.writeFileSync("./public/sitemap.xml", sitemap);
-  console.log("✅ Sitemap.xml berhasil diperbarui dengan game terbaru!");
+  console.log("✅ Sitemap.xml berhasil diperbarui dengan sempurna!");
 }
 
 generateSitemap();
