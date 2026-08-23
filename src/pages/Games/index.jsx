@@ -3,6 +3,7 @@ import { useFilteredGames, useFilterOptions } from "../../hooks/useGames";
 import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
 import { Search, X } from "lucide-react";
+import AdBanner from "../../components/common/AdBanner";
 
 export default function Games() {
   // State untuk menyimpan nilai filter
@@ -179,6 +180,12 @@ export default function Games() {
           </>
         )}
       </section>
+
+      <AdBanner
+        dataKey="6df18de5456453f3bbfa52c33bf2bad6"
+        width={728}
+        height={90}
+      />
     </div>
   );
 }

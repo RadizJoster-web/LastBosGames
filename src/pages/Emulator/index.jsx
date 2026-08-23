@@ -3,6 +3,7 @@ import { Download, Cpu } from "lucide-react";
 import { useEmulators } from "../../hooks/useGames";
 import { urlFor } from "../../services/sanity";
 import SkeletonCard from "../../components/common/SkeletonCard";
+import AdBanner from "../../components/common/AdBanner";
 
 export default function Emulator() {
   const { emulators, isLoading, isError } = useEmulators();
@@ -91,6 +92,12 @@ export default function Emulator() {
               ))}
         </div>
       </section>
+
+      <AdBanner
+        dataKey="6df18de5456453f3bbfa52c33bf2bad6"
+        width={728}
+        height={90}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Heart, Shield } from "lucide-react";
 import { useSupporters } from "../../hooks/useGames";
+import AdBanner from "../../components/common/AdBanner";
 
 export default function SupportUs() {
   const { supporters, isLoading, isError } = useSupporters();

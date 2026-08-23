@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { usePopularGames } from "../../hooks/useGames";
 import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
+import AdBanner from "../../components/common/AdBanner";
 
 export default function Home() {
   const { games, isLoading, isError } = usePopularGames();
@@ -64,6 +65,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <AdBanner
+        dataKey="cae8e1487980ee0ded892fe6f32df4b0"
+        width={468}
+        height={60}
+      />
 
       {/* POPULAR GAMES SECTION */}
       <section>
@@ -130,6 +137,12 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      <AdBanner
+        dataKey="6df18de5456453f3bbfa52c33bf2bad6"
+        width={728}
+        height={90}
+      />
     </div>
   );
 }

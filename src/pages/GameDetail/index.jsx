@@ -7,6 +7,8 @@ import { useGameDetail } from "../../hooks/useGames";
 import { urlFor } from "../../services/sanity";
 import ScreenshotLightbox from "../../components/game/ScreenshotLightbox";
 import ReportModal from "../../components/common/ReportModal";
+import AdBanner from "../../components/common/AdBanner";
+import NativeBanner from "../../components/common/NativeBanner";
 
 export default function GameDetail() {
   const { slug } = useParams();
@@ -110,6 +112,12 @@ export default function GameDetail() {
             <MetaItem label="Bahasa" value={game.language?.join(", ")} />
             <MetaItem label="Developer" value={game.developer} />
           </div>
+
+          <AdBanner
+            dataKey="6df18de5456453f3bbfa52c33bf2bad6"
+            width={728}
+            height={90}
+          />
         </div>
       </div>
 
@@ -220,6 +228,12 @@ export default function GameDetail() {
             <AlertTriangle size={16} /> Laporkan Informasi Salah
           </button>
         </div>
+
+        <AdBanner
+          dataKey="cae8e1487980ee0ded892fe6f32df4b0"
+          width={468}
+          height={60}
+        />
       </div>
 
       {/* Render Lightbox jika aktif */}
@@ -237,6 +251,9 @@ export default function GameDetail() {
         onClose={() => setIsReportModalOpen(false)}
         gameTitle={game.title}
       />
+
+      {/* NATIVE BANNER (Akan menampilkan grid artikel sponsor) */}
+      <NativeBanner />
     </div>
   );
 }
