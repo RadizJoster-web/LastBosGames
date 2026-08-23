@@ -29,7 +29,7 @@ export default function Emulator() {
         />
         <meta
           property="og:image"
-          content="https://last-bos-games.vercel.app/icon.jpg"
+          content="https://last-bos-games.vercel.app/icon.webp"
         />
       </Helmet>
 

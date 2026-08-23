@@ -49,7 +49,7 @@ export default function GameDetail() {
   // Mengambil URL gambar dengan resolusi standar Open Graph (1200x630)
   const imageUrl = game?.thumbnail
     ? urlFor(game.thumbnail).width(1200).height(630).format("jpg").url()
-    : `${siteUrl}/icon.jpg`;
+    : `${siteUrl}/icon.webp`;
 
   if (isLoading)
     return (

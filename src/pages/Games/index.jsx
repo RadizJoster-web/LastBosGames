@@ -53,17 +53,14 @@ export default function Games() {
           content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
         />
         <link rel="canonical" href="https://last-bos-games.vercel.app/" />
-        <meta
-          property="og:title"
-          content="Last Bos Games | Games"
-        />
+        <meta property="og:title" content="Last Bos Games | Games" />
         <meta
           property="og:description"
           content="Katalog game pilihan dengan tautan unduhan langsung."
         />
         <meta
           property="og:image"
-          content="https://last-bos-games.vercel.app/icon.jpg"
+          content="https://last-bos-games.vercel.app/icon.webp"
         />
       </Helmet>
 

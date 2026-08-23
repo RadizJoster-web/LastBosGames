@@ -27,7 +27,7 @@ export default function Home() {
         />
         <meta
           property="og:image"
-          content="https://last-bos-games.vercel.app/icon.jpg"
+          content="https://last-bos-games.vercel.app/icon.webp"
         />
       </Helmet>
 
@@ -47,8 +47,10 @@ export default function Home() {
           }}
         >
           <img
-            src="/hero section.jpg"
+            src="/hero section.webp"
             alt="Nostalgic Boss Characters"
+            fetchPriority="high" // Memaksa browser mendownload ini duluan
+            decoding="sync" // Menggambar gambar ini bersamaan dengan teks
             className="w-full h-full object-cover object-right md:object-contain"
           />
         </div>
