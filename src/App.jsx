@@ -1,14 +1,22 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
-import Home from "./pages/Home";
-import Games from "./pages/Games";
-import GameDetail from "./pages/GameDetail";
-import Emulator from "./pages/Emulator";
-import SupportUs from "./pages/SupportUs";
+
+const Home = lazy(() => import("./pages/Home"));
+const Games = lazy(() => import("./pages/Games"));
+const GameDetail = lazy(() => import("./pages/GameDetail"));
+const Emulator = lazy(() => import("./pages/Emulator"));
+const SupportUs = lazy(() => import("./pages/SupportUs"));
+
+const LoadingScreen = () => (
+  <div className="h-screen w-full flex items-center justify-center bg-surface font-display text-primary">
+    MEMUAT SISTEM...
+  </div>
+);
 
 function App() {
   return (
-    <Router>
+    <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
@@ -18,7 +26,7 @@ function App() {
           <Route path="/support" element={<SupportUs />} />
         </Route>
       </Routes>
-    </Router>
+    </Suspense> 
   );
 }
 
