@@ -46,40 +46,36 @@ export function useFilterOptions() {
 }
 
 // Hook untuk mengambil game dengan parameter filter
-export function useFilteredGames(search, platform, genre, region) {
-  // Membangun query GROQ secara dinamis berdasarkan state filter
-  let queryConditions = `_type == "game"`;
+const PAGE_SIZE = 12;
 
-  if (search) {
-    // Sanity match operator untuk pencarian teks case-insensitive
-    queryConditions += ` && title match "*${search}*"`;
-  }
-  if (platform) {
-    queryConditions += ` && "${platform}" in platform[]->slug.current`;
-  }
-  if (genre) {
-    queryConditions += ` && "${genre}" in genre[]->slug.current`;
-  }
-  if (region) {
-    queryConditions += ` && region->code == "${region}"`;
-  }
+export function useFilteredGames(search, platform, genre, region, page = 0) {
+  // Menggunakan parameter GROQ ($) agar aman dari error tanda kutip
+  const query = `*[_type == "game" && title match $search
+    && ($platform == "" || $platform in platform[]->slug.current)
+    && ($genre == "" || $genre in genre[]->slug.current)
+    && ($region == "" || region->code == $region)]
+    | order(createdAt desc) [$start...$end] {
+      _id, title, slug, thumbnail, shortDescription,
+      platform[]->{name}, genre[]->{name}, region->{name}
+    }`;
 
-  const query = `*[${queryConditions}] | order(createdAt desc) {
-    _id,
-    title,
-    slug,
-    thumbnail,
-    shortDescription,
-    platform[]->{name},
-    genre[]->{name},
-    region->{name}
-  }`;
+  // Mengirim parameter data secara terpisah
+  const params = {
+    search: search ? `*${search}*` : "*",
+    platform: platform || "",
+    genre: genre || "",
+    region: region || "",
+    start: page * PAGE_SIZE,
+    end: (page + 1) * PAGE_SIZE,
+  };
 
-  const { data, error, isLoading } = useSWR(query, fetcher, {
-    revalidateOnFocus: false,
-  });
+  const { data, error, isLoading } = useSWR(
+    [query, params], // Key SWR berupa array query dan parameter[cite: 1]
+    ([groq, groqParams]) => sanityClient.fetch(groq, groqParams), // Eksekusi fetcher langsung ke Sanity[cite: 1]
+    { revalidateOnFocus: false },
+  );
 
-  return { games: data, isLoading, isError: error };
+  return { games: data || [], isLoading, isError: error };
 }
 
 export function useGameDetail(slug) {

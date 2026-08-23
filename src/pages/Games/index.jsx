@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFilteredGames, useFilterOptions } from "../../hooks/useGames";
 import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
@@ -6,32 +6,46 @@ import { Search, X } from "lucide-react";
 import AdBanner from "../../components/common/AdBanner";
 
 export default function Games() {
-  // State untuk menyimpan nilai filter
+  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
+
   const [platform, setPlatform] = useState("");
   const [genre, setGenre] = useState("");
   const [region, setRegion] = useState("");
+  
+  const [page, setPage] = useState(0);
 
-  // Fetch data berdasarkan state saat ini
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearch(searchInput.trim());
+      setPage(0);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  // PERBAIKAN 1: Menambahkan 'page' ke dalam parameter hook
   const { games, isLoading, isError } = useFilteredGames(
     search,
     platform,
     genre,
     region,
+    page,
   );
+
   const { options } = useFilterOptions();
 
-  // Fungsi untuk mereset semua filter
   const resetFilters = () => {
     setSearch("");
+    setSearchInput(""); // Pastikan input visual juga ikut ter-reset
     setPlatform("");
     setGenre("");
     setRegion("");
+    setPage(0);
   };
 
   return (
     <div className="flex flex-col gap-10 pb-16">
-      {/* HEADER SECTION - Clean Modern */}
+      {/* HEADER SECTION */}
       <section className="pt-8">
         <h1 className="text-4xl md:text-5xl font-display font-black text-ink uppercase mb-4 tracking-wide">
           KATALOG <span className="text-primary">SISTEM</span>
@@ -42,10 +56,10 @@ export default function Games() {
         </p>
       </section>
 
-      {/* FILTER CONTROLS - Clean Form Layout */}
+      {/* FILTER CONTROLS */}
       <section className="bg-surface border border-border-subtle rounded-xl p-6 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-          {/* Search Input */}
+          {/* PERBAIKAN 2: Memperbaiki typo classN ame menjadi className */}
           <div className="flex flex-col gap-2 md:col-span-4 lg:col-span-1">
             <label className="font-display font-bold text-ink text-sm tracking-widest uppercase">
               Pencarian
@@ -53,14 +67,15 @@ export default function Games() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Cari judul game..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-white border-2 border-border-subtle rounded-md pl-10 pr-4 py-2 font-body text-ink focus:border-primary focus:outline-none transition-colors"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Cari target operasi..."
+                aria-label="Cari judul game"
+                className="border-4 border-ink p-3 w-full bg-surface font-body outline-none focus:bg-white"
               />
               <Search
                 size={18}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-ink/50"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rotate-z-90 text-ink/50"
               />
             </div>
           </div>
@@ -72,7 +87,10 @@ export default function Games() {
             </label>
             <select
               value={platform}
-              onChange={(e) => setPlatform(e.target.value)}
+              onChange={(e) => {
+                setPlatform(e.target.value);
+                setPage(0);
+              }}
               className="w-full bg-white border-2 border-border-subtle rounded-md px-4 py-2 font-body text-ink focus:border-primary focus:outline-none cursor-pointer"
             >
               <option value="">Semua Platform</option>
@@ -91,7 +109,10 @@ export default function Games() {
             </label>
             <select
               value={genre}
-              onChange={(e) => setGenre(e.target.value)}
+              onChange={(e) => {
+                setGenre(e.target.value);
+                setPage(0);
+              }}
               className="w-full bg-white border-2 border-border-subtle rounded-md px-4 py-2 font-body text-ink focus:border-primary focus:outline-none cursor-pointer"
             >
               <option value="">Semua Genre</option>
@@ -110,7 +131,10 @@ export default function Games() {
             </label>
             <select
               value={region}
-              onChange={(e) => setRegion(e.target.value)}
+              onChange={(e) => {
+                setRegion(e.target.value);
+                setPage(0);
+              }}
               className="w-full bg-white border-2 border-border-subtle rounded-md px-4 py-2 font-body text-ink focus:border-primary focus:outline-none cursor-pointer"
             >
               <option value="">Semua Wilayah</option>
@@ -122,7 +146,7 @@ export default function Games() {
             </select>
           </div>
 
-          {/* Reset Button (Tampil jika ada filter aktif) */}
+          {/* Reset Button */}
           {(search || platform || genre || region) && (
             <button
               onClick={resetFilters}
@@ -143,7 +167,6 @@ export default function Games() {
           </div>
         ) : (
           <>
-            {/* Indikator Loading */}
             {isLoading && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 {Array.from({ length: 8 }).map((_, i) => (
@@ -152,7 +175,6 @@ export default function Games() {
               </div>
             )}
 
-            {/* Jika Data Ditemukan */}
             {!isLoading && games?.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 {games.map((game) => (
@@ -161,7 +183,6 @@ export default function Games() {
               </div>
             )}
 
-            {/* Empty State (Jika tidak ada game yang cocok) */}
             {!isLoading && games?.length === 0 && (
               <div className="flex flex-col items-center justify-center py-20 px-4 text-center border-2 border-dashed border-border-subtle rounded-xl bg-white">
                 <div className="text-4xl mb-4 opacity-50">📡</div>
@@ -181,6 +202,32 @@ export default function Games() {
         )}
       </section>
 
+      {/* KONTROL PAGINATION */}
+      {!isLoading && !isError && games.length > 0 && (
+        <div className="flex justify-center items-center gap-6 mt-16 pb-8">
+          <button
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            disabled={page === 0}
+            className="btn-brutal px-4 py-2 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+          >
+            SEBELUMNYA
+          </button>
+
+          <span className="font-display text-2xl font-black text-ink">
+            HAL {page + 1}
+          </span>
+
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={games.length < 12}
+            className="btn-brutal px-4 py-2 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+          >
+            SELANJUTNYA
+          </button>
+        </div>
+      )}
+
+      {/* BANNER IKLAN */}
       <AdBanner
         dataKey="6df18de5456453f3bbfa52c33bf2bad6"
         width={728}
