@@ -4,6 +4,8 @@ import { urlFor } from "../../services/sanity";
 export default function GameCard({ game }) {
   if (!game) return null;
 
+  const image = urlFor(game.thumbnail).auto("format").fit("crop");
+
   return (
     <article className="group bg-surface border-4 border-ink flex flex-col h-full shadow-[6px_6px_0px_#0F0F0F] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[10px_10px_0px_#8A1010] transition-all duration-200">
       <Link
@@ -12,9 +14,22 @@ export default function GameCard({ game }) {
       >
         {game.thumbnail ? (
           <img
-            src={urlFor(game.thumbnail).width(600).height(338).url()}
-            alt={`Cover ${game.title}`}
-            loading="lazy"
+            src={image.width(600).height(338).url()}
+            srcSet={[320, 480, 600, 900]
+              .map(
+                (w) =>
+                  `${image
+                    .width(w)
+                    .height(Math.round((w * 338) / 600))
+                    .url()} ${w}w`,
+              )
+              .join(", ")} // Menghasilkan ukuran berbeda untuk layar berbeda[cite: 1]
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" //[cite: 1]
+            alt={`${game.title} cover art`} // Teks alt deskriptif untuk SEO[cite: 1]
+            loading="lazy" // Menunda pemuatan gambar yang tidak terlihat[cite: 1]
+            decoding="async" // Meringankan beban thread utama browser[cite: 1] 
+            width="600" // Deklarasi ukuran pasti untuk mencegah layout shift[cite: 1]
+            height="338" //[cite: 1]
             className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-300"
           />
         ) : (
@@ -42,7 +57,7 @@ export default function GameCard({ game }) {
 
         <div className="mt-auto flex items-center justify-between text-xs font-display font-bold text-ink uppercase tracking-widest border-t-2 border-ink border-dashed pt-4">
           <span className="bg-ink text-white px-2 py-1">
-           {game.genre?.map(g => g.name).join(', ') || 'UNKNOWN'}
+            {game.genre?.map((g) => g.name).join(", ") || "UNKNOWN"}
           </span>
           <span>{game.region?.name || "GLOBAL"}</span>
         </div>
