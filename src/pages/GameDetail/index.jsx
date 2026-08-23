@@ -38,6 +38,19 @@ export default function GameDetail() {
     }
   };
 
+  // Menyiapkan variabel SEO
+  const siteUrl =
+    import.meta.env.VITE_SITE_URL || "https://last-bos-games.vercel.app";
+  const canonicalUrl = `${siteUrl}/game/${game?.slug?.current}`;
+  const description =
+    game?.shortDescription ||
+    `Download informasi dan file untuk ${game?.title}.`;
+
+  // Mengambil URL gambar dengan resolusi standar Open Graph (1200x630)
+  const imageUrl = game?.thumbnail
+    ? urlFor(game.thumbnail).width(1200).height(630).format("jpg").url()
+    : `${siteUrl}/icon.jpg`;
+
   if (isLoading)
     return (
       <div className="py-20 text-center font-display text-2xl animate-pulse">
@@ -53,10 +66,52 @@ export default function GameDetail() {
 
   return (
     <div className="flex flex-col gap-12 pb-16">
-      <Helmet>
-        <title>{game.title} - Last Boss Game</title>
-        <meta name="description" content={game.shortDescription} />
-      </Helmet>
+      {game && (
+        <Helmet>
+          <title>{`${game.title} | Last Boss Games`}</title>
+          <meta name="description" content={description} />
+          <link rel="canonical" href={canonicalUrl} />
+
+          {/* Open Graph / Facebook / WhatsApp */}
+          <meta property="og:type" content="article" />
+          <meta property="og:site_name" content="Last Boss Game" />
+          <meta
+            property="og:title"
+            content={`${game.title} | Last Boss Game`}
+          />
+          <meta property="og:description" content={description} />
+          <meta property="og:url" content={canonicalUrl} />
+          <meta property="og:image" content={imageUrl} />
+
+          {/* Twitter Card */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content={`${game.title} | Last Boss Game`}
+          />
+          <meta name="twitter:description" content={description} />
+          <meta name="twitter:image" content={imageUrl} />
+
+          {/* Structured Data (JSON-LD) khusus Video Game */}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "VideoGame",
+              name: game.title,
+              description: description,
+              image: imageUrl,
+              url: canonicalUrl,
+              operatingSystem: game.platform?.map((item) => item.name),
+              datePublished: game.releaseYear
+                ? `${game.releaseYear}-01-01`
+                : undefined,
+              author: game.developer
+                ? { "@type": "Organization", name: game.developer }
+                : undefined,
+            })}
+          </script>
+        </Helmet>
+      )}
 
       {/* Navigasi Kembali */}
       <div>

@@ -4,6 +4,7 @@ import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
 import { Search, X } from "lucide-react";
 import AdBanner from "../../components/common/AdBanner";
+import { Helmet } from "react-helmet-async";
 
 export default function Games() {
   const [searchInput, setSearchInput] = useState("");
@@ -12,7 +13,7 @@ export default function Games() {
   const [platform, setPlatform] = useState("");
   const [genre, setGenre] = useState("");
   const [region, setRegion] = useState("");
-  
+
   const [page, setPage] = useState(0);
 
   useEffect(() => {
@@ -45,6 +46,27 @@ export default function Games() {
 
   return (
     <div className="flex flex-col gap-10 pb-16">
+      <Helmet>
+        <title>Last Boss Games | Games</title>
+        <meta
+          name="description"
+          content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
+        />
+        <link rel="canonical" href="https://last-bos-games.vercel.app/" />
+        <meta
+          property="og:title"
+          content="Last Boss Games | Games"
+        />
+        <meta
+          property="og:description"
+          content="Katalog game pilihan dengan tautan unduhan langsung."
+        />
+        <meta
+          property="og:image"
+          content="https://last-bos-games.vercel.app/icon.jpg"
+        />
+      </Helmet>
+
       {/* HEADER SECTION */}
       <section className="pt-8">
         <h1 className="text-4xl md:text-5xl font-display font-black text-ink uppercase mb-4 tracking-wide">

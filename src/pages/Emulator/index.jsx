@@ -4,6 +4,7 @@ import { useEmulators } from "../../hooks/useGames";
 import { urlFor } from "../../services/sanity";
 import SkeletonCard from "../../components/common/SkeletonCard";
 import AdBanner from "../../components/common/AdBanner";
+import { Helmet } from "react-helmet-async";
 
 export default function Emulator() {
   const { emulators, isLoading, isError } = useEmulators();
@@ -14,6 +15,24 @@ export default function Emulator() {
 
   return (
     <div className="flex flex-col gap-10 pb-16">
+      <Helmet>
+        <title>Last Boss Games | Emulators</title>
+        <meta
+          name="description"
+          content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
+        />
+        <link rel="canonical" href="https://last-bos-games.vercel.app/" />
+        <meta property="og:title" content="Last Boss Games | Emulators" />
+        <meta
+          property="og:description"
+          content="Katalog game pilihan dengan tautan unduhan langsung."
+        />
+        <meta
+          property="og:image"
+          content="https://last-bos-games.vercel.app/icon.jpg"
+        />
+      </Helmet>
+
       {/* HEADER SECTION - Clean & Modern */}
       <section className="pt-8 border-b border-border-subtle pb-8">
         <h1 className="text-4xl md:text-5xl font-display font-black text-ink uppercase mb-4 tracking-wide flex items-center gap-4">

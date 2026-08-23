@@ -3,12 +3,34 @@ import { usePopularGames } from "../../hooks/useGames";
 import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
 import AdBanner from "../../components/common/AdBanner";
+import { Helmet } from "react-helmet-async";
 
 export default function Home() {
   const { games, isLoading, isError } = usePopularGames();
 
   return (
     <div className="flex flex-col gap-20 md:gap-32 pb-16 overflow-x-hidden">
+      <Helmet>
+        <title>Last Boss Games | Game Download Catalog</title>
+        <meta
+          name="description"
+          content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
+        />
+        <link rel="canonical" href="https://last-bos-games.vercel.app/" />
+        <meta
+          property="og:title"
+          content="Last Boss Game | Game Download Catalog"
+        />
+        <meta
+          property="og:description"
+          content="Katalog game pilihan dengan tautan unduhan langsung."
+        />
+        <meta
+          property="og:image"
+          content="https://last-bos-games.vercel.app/icon.jpg"
+        />
+      </Helmet>
+
       {/* HERO SECTION - Clean & Modern */}
       <section className="relative pt-12 md:pt-24 pb-12 flex flex-col justify-center min-h-[60vh] overflow-hidden">
         {/* Efek glow modern yang halus sebagai background */}

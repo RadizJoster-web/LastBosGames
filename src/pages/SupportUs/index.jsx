@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Heart, Shield } from "lucide-react";
 import { useSupporters } from "../../hooks/useGames";
-import AdBanner from "../../components/common/AdBanner";
+import { Helmet } from "react-helmet-async";
 
 export default function SupportUs() {
   const { supporters, isLoading, isError } = useSupporters();
@@ -12,6 +12,24 @@ export default function SupportUs() {
 
   return (
     <div className="flex flex-col gap-16 pb-16">
+      <Helmet>
+        <title>Last Boss Games | Support Us</title>
+        <meta
+          name="description"
+          content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
+        />
+        <link rel="canonical" href="https://last-bos-games.vercel.app/" />
+        <meta property="og:title" content="Last Boss Games | Support Us" />
+        <meta
+          property="og:description"
+          content="Katalog game pilihan dengan tautan unduhan langsung."
+        />
+        <meta
+          property="og:image"
+          content="https://last-bos-games.vercel.app/icon.jpg"
+        />
+      </Helmet>
+
       {/* HEADER & DONATION CTA */}
       <section className="pt-8 flex flex-col md:flex-row gap-12 items-center">
         {/* Teks Informasi - Clean Modern */}
