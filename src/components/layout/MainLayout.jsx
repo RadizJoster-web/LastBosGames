@@ -21,7 +21,7 @@ export default function MainLayout() {
           >
             <div className="bg-white border-2 border-ink shadow-[3px_3px_0px_#0F0F0F] group-hover:-translate-y-1 group-hover:-translate-x-1 group-hover:shadow-[5px_5px_0px_#0F0F0F] active:translate-y-0 active:translate-x-0 active:shadow-[1px_1px_0px_#0F0F0F] transition-all duration-150 flex items-center justify-center p-1 md:p-1.5 w-12 h-12 md:w-14 md:h-14">
               <img
-                src="/icon.jpg"
+                src="/icon.webp"
                 alt="LBG Logo"
                 className="w-full h-full object-contain"
               />
