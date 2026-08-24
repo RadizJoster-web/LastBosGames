@@ -38,6 +38,8 @@ export default function GameDetail() {
     }
   };
 
+  console.log(game);
+
   // Menyiapkan variabel SEO
   const siteUrl =
     import.meta.env.VITE_SITE_URL || "https://last-bos-games.vercel.app";
@@ -270,7 +272,7 @@ export default function GameDetail() {
           </div>
         ) : (
           <p className="font-body text-ink/60">
-            Tautan unduhan belum tersedia untuk target ini.
+            Tautan unduhan belum tersedia untuk game ini.
           </p>
         )}
 

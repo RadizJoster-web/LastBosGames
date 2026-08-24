@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      /* Mengunci agar iklan presisi di tengah tanpa scrollbar */
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Menangkap parameter kunci rahasia dan ukuran dari React
+      const urlParams = new URLSearchParams(window.location.search);
+      const key = urlParams.get("key");
+      const w = urlParams.get("w");
+      const h = urlParams.get("h");
+
+      // Mengeksekusi script asli Adsterra menggunakan document.write jadul yang mereka sukai
+      if (key) {
+        document.write("<scr" + 'ipt type="text/javascript">');
+        document.write(
+          'atOptions = { "key": "' +
+            key +
+            '", "format": "iframe", "height": ' +
+            h +
+            ', "width": ' +
+            w +
+            ', "params": {} };',
+        );
+        document.write("</scr" + "ipt>");
+        document.write(
+          "<scr" +
+            'ipt type="text/javascript" src="https://www.highrevenueformat.com/' +
+            key +
+            '/invoke.js"></scr' +
+            "ipt>",
+        );
+      }
+    </script>
+  </body>
+</html>
