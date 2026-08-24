@@ -98,7 +98,6 @@ export default function Home() {
 
       {/* POPULAR GAMES SECTION */}
       <section>
-        {/* Header section modern tanpa border tebal */}
         <div className="flex items-end justify-between mb-10 border-b border-border-subtle pb-4">
           <div>
             <h2 className="text-3xl md:text-4xl font-display font-black text-ink tracking-wide">
@@ -117,24 +116,37 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Kondisi Error (Clean Notification) */}
         {isError ? (
           <div className="bg-red-50 text-primary p-6 border-l-4 border-primary font-body text-center rounded-r-md mb-8">
             <span className="font-bold">CRITICAL ERROR:</span> Gagal memuat data
             dari server.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          /* PERBAIKAN 2: Flex horizontal + Snap di Mobile, Grid di Desktop */
+          /* [&::-webkit-scrollbar]:hidden digunakan untuk menyembunyikan scrollbar bawah agar rapi */
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-6 pt-2 -mx-4 px-4 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
             {isLoading
               ? Array.from({ length: 4 }).map((_, index) => (
-                  <SkeletonCard key={index} />
+                  // Pembungkus Card agar tidak menyusut (shrink-0) dan pas di layar HP
+                  <div
+                    key={index}
+                    className="w-[70vw] sm:w-[300px] shrink-0 snap-center md:w-auto md:shrink"
+                  >
+                    <SkeletonCard />
+                  </div>
                 ))
-              : games?.map((game) => <GameCard key={game._id} game={game} />)}
+              : games?.map((game) => (
+                  <div
+                    key={game._id}
+                    className="w-[70vw] sm:w-[300px] shrink-0 snap-center md:w-auto md:shrink"
+                  >
+                    <GameCard game={game} />
+                  </div>
+                ))}
           </div>
         )}
 
-        {/* Tombol Mobile 'Lihat Semua' */}
-        <div className="mt-10 md:hidden">
+        <div className="mt-8 md:hidden">
           <Link to="/games" className="btn-brutal w-full">
             LIHAT SEMUA GAME
           </Link>
@@ -148,8 +160,8 @@ export default function Home() {
             PEMBARUAN BASIS DATA: <span className="text-primary">BERJALAN</span>
           </h3>
           <p className="font-body text-ink/75 leading-relaxed text-lg">
-            Koleksi game kami terus diperbarui secara berkala. Jika game kesukaanmu
-            belum ada, pastikan untuk kembali lagi nanti.
+            Koleksi game kami terus diperbarui secara berkala. Jika game
+            kesukaanmu belum ada, pastikan untuk kembali lagi nanti.
           </p>
         </div>
         <div className="shrink-0 w-full md:w-auto">

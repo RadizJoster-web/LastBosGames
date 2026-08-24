@@ -10,9 +10,8 @@ export default function MainLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 bg-primary border-b-4 border-ink shadow-[0px_4px_0px_#0F0F0F]">
+      <header className="sticky top-0 z-40 bg-primary border-b-4 border-ink shadow-[0px_4px_0px_#0F0F0F]">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-          {/* Logo - Direvisi menjadi bentuk Lencana/Badge Brutalist */}
           <Link
             to="/"
             onClick={closeMenu}
@@ -28,7 +27,6 @@ export default function MainLayout() {
             </div>
           </Link>
 
-          {/* Tombol Toggle Mobile */}
           <button
             onClick={toggleMenu}
             className="md:hidden relative z-50 p-2 text-white hover:bg-surface hover:text-ink border-2 border-transparent hover:border-ink transition-colors flex items-center justify-center"
@@ -37,7 +35,6 @@ export default function MainLayout() {
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
 
-          {/* Navigasi Desktop */}
           <nav className="hidden md:flex gap-4 font-display font-bold text-lg">
             <NavItem to="/">HOME</NavItem>
             <NavItem to="/games">GAMES</NavItem>
@@ -45,10 +42,12 @@ export default function MainLayout() {
             <NavItem to="/support">SUPPORT</NavItem>
           </nav>
         </div>
+      </header>
 
-        {/* Dropdown Navigasi Mobile */}
-        {isMobileMenuOpen && (
-          <nav className="md:hidden absolute top-20 left-0 w-full bg-primary border-b-4 border-ink shadow-[0px_8px_0px_#0F0F0F] z-40 flex flex-col p-4 gap-3">
+      {/* PERBAIKAN 1: Overlay Menu Mobile di Tengah Layar */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-primary/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 animate-in fade-in duration-200">
+          <nav className="flex flex-col gap-6 w-full max-w-xs">
             <MobileNavItem to="/" onClick={closeMenu}>
               HOME
             </MobileNavItem>
@@ -62,8 +61,8 @@ export default function MainLayout() {
               SUPPORT
             </MobileNavItem>
           </nav>
-        )}
-      </header>
+        </div>
+      )}
 
       <main className="flex-grow container mx-auto px-4 py-12">
         <Outlet />
@@ -80,7 +79,6 @@ export default function MainLayout() {
   );
 }
 
-// Komponen NavItem Desktop
 function NavItem({ to, children }) {
   return (
     <Link
@@ -95,14 +93,13 @@ function NavItem({ to, children }) {
   );
 }
 
-// Komponen NavItem Mobile
 function MobileNavItem({ to, onClick, children }) {
   return (
     <Link
       to={to}
       onClick={onClick}
-      className="bg-surface text-ink px-4 py-3 border-2 border-ink text-center font-display font-bold text-lg uppercase tracking-wider
-                 active:bg-border-subtle active:translate-y-1 transition-all"
+      className="bg-surface text-ink px-4 py-4 border-4 border-ink text-center font-display font-black text-2xl uppercase tracking-widest
+                 shadow-[6px_6px_0px_#0F0F0F] active:bg-border-subtle active:translate-y-1 active:shadow-[2px_2px_0px_#0F0F0F] transition-all"
     >
       {children}
     </Link>

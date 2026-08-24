@@ -24,6 +24,10 @@ export default function Games() {
     return () => clearTimeout(timer);
   }, [searchInput]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   // PERBAIKAN 1: Menambahkan 'page' ke dalam parameter hook
   const { games, isLoading, isError } = useFilteredGames(
     search,

@@ -9,8 +9,6 @@ import { Helmet } from "react-helmet-async";
 export default function Emulator() {
   const { emulators, isLoading, isError } = useEmulators();
 
-  console.log(emulators);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
