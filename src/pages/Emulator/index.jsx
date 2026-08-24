@@ -83,7 +83,7 @@ export default function Emulator() {
                     {emulator.name}
                   </h3>
                   <p className="font-body text-xs font-bold text-ink/60 uppercase tracking-widest mt-1 mb-auto">
-                   For   {emulator.supportedPlatform.name}
+                    untuk {emulator.supportedPlatform.name}
                   </p>
 
                   {/* TOMBOL UNDUH (Kecil, Ikon Samping, Neo-Brutalist) */}
