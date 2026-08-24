@@ -80,10 +80,10 @@ export default function Emulator() {
 
                   {/* TEKS (Tanpa Background) */}
                   <h3 className="font-display text-lg sm:text-xl font-black text-ink uppercase line-clamp-1 w-full">
-                    {emulator.title}
+                    {emulator.name}
                   </h3>
                   <p className="font-body text-xs font-bold text-ink/60 uppercase tracking-widest mt-1 mb-auto">
-                    {emulator.platform?.name || "MULTI-PLATFORM"}
+                   For   {emulator.supportedPlatform.name}
                   </p>
 
                   {/* TOMBOL UNDUH (Kecil, Ikon Samping, Neo-Brutalist) */}

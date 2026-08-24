@@ -152,7 +152,7 @@ export default function GameDetail() {
               {game.title}
             </h1>
             <p className="text-xl font-body text-ink/80 leading-relaxed border-l-4 border-primary pl-4">
-              {game.shortDescription}
+              "{game.shortDescription}" 
             </p>
           </div>
 
