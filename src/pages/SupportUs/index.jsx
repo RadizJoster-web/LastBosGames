@@ -81,10 +81,11 @@ export default function SupportUs() {
             VANGUARD (HALL OF FAME)
           </h2>
           <p className="text-ink/60 font-body mt-2">
-            Agen yang telah mengirimkan suplai untuk keberlangsungan sistem.
+            Terimakasih kepada orang-orang yang telah mendukung kami. Nama
+            kalian akan selalu terukir di sini.
           </p>
         </div>
-
+    
         {isError && (
           <div className="text-center text-primary font-display font-bold">
             Gagal memuat data pendukung.

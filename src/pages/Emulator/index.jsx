@@ -9,6 +9,8 @@ import { Helmet } from "react-helmet-async";
 export default function Emulator() {
   const { emulators, isLoading, isError } = useEmulators();
 
+  console.log(emulators);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -54,59 +56,46 @@ export default function Emulator() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6">
           {isLoading
             ? Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
-            : emulators?.map((emu) => (
+            : emulators?.map((emulator) => (
                 /* Emulator Card - Neo Brutalist */
-                <article
-                  key={emu._id}
-                  className="bg-white border-2 border-ink p-5 md:p-6 flex flex-col h-full shadow-[4px_4px_0px_#0F0F0F] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#8A1010] transition-all duration-200"
-                >
-                  {/* Header Card: Logo bersebelahan dengan Judul */}
-                  <div className="flex items-center gap-4 mb-4">
-                    {/* Kontainer Logo yang konsisten */}
-                    <div className="shrink-0 w-16 h-16 bg-surface border border-border-subtle flex items-center justify-center p-2 rounded-sm">
-                      {emu.logo ? (
-                        <img
-                          src={urlFor(emu.logo).width(150).url()}
-                          alt={`Logo ${emu.name}`}
-                          className="w-full h-full object-contain"
-                        />
-                      ) : (
-                        <span className="font-display text-[10px] text-secondary">
-                          NO LOGO
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Judul & Tag Platform */}
-                    <div>
-                      <h3 className="font-display text-xl font-bold text-ink uppercase leading-none mb-2">
-                        {emu.name}
-                      </h3>
-                      <span className="inline-block bg-ink text-white font-display text-[10px] px-2 py-0.5 uppercase tracking-widest">
-                        {emu.supportedPlatform?.name || "UMUM"}
-                      </span>
-                    </div>
+                <article className="group bg-surface border-4 border-ink flex flex-col items-center justify-center text-center p-8 aspect-square shadow-[4px_4px_0px_#0F0F0F] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#8A1010] transition-all duration-300">
+                  {/* LOGO (Grayscale Default -> Full Color on Hover) */}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 mb-4 flex-shrink-0">
+                    {emulator.logo ? (
+                      <img
+                        src={urlFor(emulator.logo).width(160).url()}
+                        alt={`Logo ${emulator.title}`}
+                        loading="lazy"
+                        className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full border-2 border-ink flex items-center justify-center font-display font-black text-2xl text-ink">
+                        ?
+                      </div>
+                    )}
                   </div>
 
-                  {/* Deskripsi */}
-                  <p className="font-body text-ink/75 text-sm leading-relaxed mb-6 flex-grow">
-                    {emu.description}
+                  {/* TEKS (Tanpa Background) */}
+                  <h3 className="font-display text-lg sm:text-xl font-black text-ink uppercase line-clamp-1 w-full">
+                    {emulator.title}
+                  </h3>
+                  <p className="font-body text-xs font-bold text-ink/60 uppercase tracking-widest mt-1 mb-auto">
+                    {emulator.platform?.name || "MULTI-PLATFORM"}
                   </p>
 
-                  {/* Tombol Unduh yang lebih ramping */}
-                  <div className="mt-auto pt-4 border-t border-border-subtle">
-                    <a
-                      href={emu.downloadUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-surface hover:bg-primary hover:text-white text-ink border-2 border-ink font-display font-bold text-sm px-4 py-2.5 uppercase tracking-widest transition-colors"
-                    >
-                      <Download size={16} /> DOWNLOAD DISINI
-                    </a>
-                  </div>
+                  {/* TOMBOL UNDUH (Kecil, Ikon Samping, Neo-Brutalist) */}
+                  <a
+                    href={emulator.downloadUrl || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-flex items-center justify-center gap-2 bg-primary text-white font-display font-bold text-sm px-4 py-2 border-2 border-ink shadow-[3px_3px_0px_#0F0F0F] hover:bg-white hover:text-ink active:translate-y-0.5 active:translate-x-0.5 active:shadow-[1px_1px_0px_#0F0F0F] transition-all uppercase"
+                  >
+                    DOWNLOAD
+                    <Download size={16} strokeWidth={2.5} />
+                  </a>
                 </article>
               ))}
         </div>

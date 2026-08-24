@@ -6,7 +6,7 @@ const fetcher = (query) => sanityClient.fetch(query);
 
 // Hook untuk mengambil game populer/unggulan (maksimal 4 untuk di beranda)
 export function usePopularGames() {
-  const query = `*[_type == "game" && featuredStatus == true] | order(popularityScore desc)[0...4] {
+  const query = `*[_type == "game"] | order(popularityScore desc)[0...4] {
     _id,
     title,
     slug,
@@ -98,7 +98,7 @@ export function useGameDetail(slug) {
 // Hook untuk mengambil daftar Emulator
 export function useEmulators() {
   const query = `*[_type == "emulator"] | order(name asc) {
-    _id, name, slug, logo, description, downloadUrl, sourceType,
+    _id, name, slug, logo, downloadUrl, sourceType,
     supportedPlatform->{name}
   }`;
 

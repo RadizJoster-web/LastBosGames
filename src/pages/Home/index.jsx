@@ -102,7 +102,7 @@ export default function Home() {
         <div className="flex items-end justify-between mb-10 border-b border-border-subtle pb-4">
           <div>
             <h2 className="text-3xl md:text-4xl font-display font-black text-ink tracking-wide">
-              TARGET UTAMA
+              GAME POPULAR
             </h2>
             <p className="text-ink/60 font-body mt-2 text-sm md:text-base">
               Game paling banyak diincar saat ini
@@ -148,7 +148,7 @@ export default function Home() {
             PEMBARUAN BASIS DATA: <span className="text-primary">BERJALAN</span>
           </h3>
           <p className="font-body text-ink/75 leading-relaxed text-lg">
-            Koleksi game kami terus diperbarui secara berkala. Jika targetmu
+            Koleksi game kami terus diperbarui secara berkala. Jika game kesukaanmu
             belum ada, pastikan untuk kembali lagi nanti.
           </p>
         </div>

@@ -38,8 +38,6 @@ export default function GameDetail() {
     }
   };
 
-  console.log(game);
-
   // Menyiapkan variabel SEO
   const siteUrl =
     import.meta.env.VITE_SITE_URL || "https://last-bos-games.vercel.app";

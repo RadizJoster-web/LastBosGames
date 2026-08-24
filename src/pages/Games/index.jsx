@@ -70,8 +70,8 @@ export default function Games() {
           KATALOG <span className="text-primary">SISTEM</span>
         </h1>
         <p className="text-ink/75 font-body text-lg max-w-2xl">
-          Temukan target operasimu. Gunakan filter di bawah untuk menyaring data
-          berdasarkan platform, genre, atau wilayah rilis.
+          Gunakan filter di bawah untuk menyaring data berdasarkan platform,
+          genre, atau wilayah rilis.
         </p>
       </section>
 
@@ -187,15 +187,15 @@ export default function Games() {
         ) : (
           <>
             {isLoading && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                {Array.from({ length: 8 }).map((_, i) => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+                {Array.from({ length: 12 }).map((_, i) => (
                   <SkeletonCard key={i} />
                 ))}
               </div>
             )}
 
             {!isLoading && games?.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 {games.map((game) => (
                   <GameCard key={game._id} game={game} />
                 ))}
