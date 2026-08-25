@@ -11,7 +11,7 @@ const client = createClient({
 
 async function generateSitemap() {
   // Pastikan tidak ada tanda '/' di akhir URL domain Anda
-  const DOMAIN = "https://last-bos-games.vercel.app";
+  const DOMAIN = "https://lastbosgames.vercel.app";
 
   // Fungsi penyeimbang URL untuk mencegah garis miring ganda[cite: 1]
   const normalizePath = (path) => `${DOMAIN}${path === "" ? "/" : path}`;
