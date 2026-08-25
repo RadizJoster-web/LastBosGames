@@ -4,9 +4,9 @@ import { sanityClient } from "../services/sanity";
 // Fungsi dasar untuk mengambil data dari Sanity menggunakan GROQ query
 const fetcher = (query) => sanityClient.fetch(query);
 
-// Hook untuk mengambil game populer/unggulan (maksimal 4 untuk di beranda)
-export function usePopularGames() {
-  const query = `*[_type == "game"] | order(popularityScore desc)[0...4] {
+// Mengubah parameter order menjadi _createdAt desc (waktu pembuatan terbaru)
+export function useRecentGames() {
+  const query = `*[_type == "game"] | order(_createdAt desc)[0...4] {
     _id,
     title,
     slug,
@@ -18,9 +18,9 @@ export function usePopularGames() {
   }`;
 
   const { data, error, isLoading } = useSWR(query, fetcher, {
-    revalidateOnFocus: false, // Mencegah fetch saat user kembali ke tab browser
-    revalidateOnReconnect: false, // Mencegah fetch saat koneksi internet putus-nyambung
-    revalidateIfStale: false, // Gunakan data cache jika sudah ada
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    revalidateIfStale: false,
   });
 
   return {
@@ -48,13 +48,22 @@ export function useFilterOptions() {
 // Hook untuk mengambil game dengan parameter filter
 const PAGE_SIZE = 12;
 
-export function useFilteredGames(search, platform, genre, region, page = 0) {
+export function useFilteredGames(
+  search,
+  platform,
+  genre,
+  region,
+  page = 0,
+  isPopular = false,
+) {
+  const sortOrder = isPopular ? "popularityScore desc" : "_createdAt desc";
+
   // Menggunakan parameter GROQ ($) agar aman dari error tanda kutip
   const query = `*[_type == "game" && title match $search
     && ($platform == "" || $platform in platform[]->slug.current)
     && ($genre == "" || $genre in genre[]->slug.current)
     && ($region == "" || region->code == $region)]
-    | order(createdAt desc) [$start...$end] {
+    | order(${sortOrder}) [$start...$end] {
       _id, title, slug, thumbnail, shortDescription,
       platform[]->{name}, genre[]->{name}, region->{name}
     }`;

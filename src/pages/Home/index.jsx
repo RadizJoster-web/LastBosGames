@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { usePopularGames } from "../../hooks/useGames";
+import { useRecentGames } from "../../hooks/useGames";
 import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
 import AdBanner from "../../components/common/AdBanner";
 import { Helmet } from "react-helmet-async";
 
 export default function Home() {
-  const { games, isLoading, isError } = usePopularGames();
+  const { games, isLoading, isError } = useRecentGames();
 
   return (
     <div className="flex flex-col gap-20 md:gap-32 pb-16 overflow-x-hidden">
@@ -96,15 +96,15 @@ export default function Home() {
         height={60}
       />
 
-      {/* POPULAR GAMES SECTION */}
+      {/* RECENT GAMES SECTION */}
       <section>
         <div className="flex items-end justify-between mb-10 border-b border-border-subtle pb-4">
           <div>
             <h2 className="text-3xl md:text-4xl font-display font-black text-ink tracking-wide">
-              GAME POPULAR
+              GAME TERBARU
             </h2>
             <p className="text-ink/60 font-body mt-2 text-sm md:text-base">
-              Game paling banyak diincar saat ini
+              Daftar game yang baru ditambahkan
             </p>
           </div>
           <Link
@@ -122,12 +122,9 @@ export default function Home() {
             dari server.
           </div>
         ) : (
-          /* PERBAIKAN 2: Flex horizontal + Snap di Mobile, Grid di Desktop */
-          /* [&::-webkit-scrollbar]:hidden digunakan untuk menyembunyikan scrollbar bawah agar rapi */
           <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-6 pt-2 -mx-4 px-4 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
             {isLoading
               ? Array.from({ length: 4 }).map((_, index) => (
-                  // Pembungkus Card agar tidak menyusut (shrink-0) dan pas di layar HP
                   <div
                     key={index}
                     className="w-[70vw] sm:w-[300px] shrink-0 snap-center md:w-auto md:shrink"
@@ -148,7 +145,7 @@ export default function Home() {
 
         <div className="mt-8 md:hidden">
           <Link to="/games" className="btn-brutal w-full">
-            LIHAT SEMUA GAME
+            LIHAT SEMUA KANDIDAT
           </Link>
         </div>
       </section>

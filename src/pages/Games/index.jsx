@@ -13,6 +13,7 @@ export default function Games() {
   const [platform, setPlatform] = useState("");
   const [genre, setGenre] = useState("");
   const [region, setRegion] = useState("");
+  const [isPopular, setIsPopular] = useState(false);
 
   const [page, setPage] = useState(0);
 
@@ -35,6 +36,7 @@ export default function Games() {
     genre,
     region,
     page,
+    isPopular,
   );
 
   const { options } = useFilterOptions();
@@ -46,6 +48,7 @@ export default function Games() {
     setGenre("");
     setRegion("");
     setPage(0);
+    setIsPopular(false);
   };
 
   return (
@@ -82,7 +85,7 @@ export default function Games() {
       {/* FILTER CONTROLS */}
       <section className="bg-surface border border-border-subtle rounded-xl p-6 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-          {/* PERBAIKAN 2: Memperbaiki typo classN ame menjadi className */}
+          {/* Input Pencarian */}
           <div className="flex flex-col gap-2 md:col-span-4 lg:col-span-1">
             <label className="font-display font-bold text-ink text-sm tracking-widest uppercase">
               Pencarian
@@ -169,15 +172,33 @@ export default function Games() {
             </select>
           </div>
 
-          {/* Reset Button */}
-          {(search || platform || genre || region) && (
+          {/* AREA TOMBOL AKSI (TERPOPULER & RESET) */}
+          <div className="md:col-span-4 lg:col-span-4 mt-2 flex flex-wrap items-center gap-4">
+            {/* Tombol Terpopuler */}
             <button
-              onClick={resetFilters}
-              className="md:col-span-4 lg:col-span-4 mt-2 flex items-center justify-center gap-2 text-primary font-display font-bold hover:text-ink transition-colors uppercase tracking-widest text-sm"
+              onClick={() => {
+                setIsPopular(!isPopular);
+                setPage(0);
+              }}
+              className={`flex items-center justify-center gap-2 px-4 py-2 font-display font-bold text-sm tracking-widest uppercase border-2 border-ink transition-all ${
+                isPopular
+                  ? "bg-primary text-white shadow-[1px_1px_0px_#0F0F0F] translate-y-1 translate-x-1"
+                  : "bg-white text-ink shadow-[4px_4px_0px_#0F0F0F] hover:-translate-y-0.5 hover:-translate-x-0.5"
+              }`}
             >
-              <X size={16} /> Reset Semua Filter
+              🔥 TERPOPULER
             </button>
-          )}
+
+            {/* Tombol Reset (Muncul jika ada filter aktif) */}
+            {(search || platform || genre || region || isPopular) && (
+              <button
+                onClick={resetFilters}
+                className="flex items-center justify-center gap-2 text-primary font-display font-bold hover:text-ink transition-colors uppercase tracking-widest text-sm"
+              >
+                <X size={16} /> Reset Semua Filter
+              </button>
+            )}
+          </div>
         </div>
       </section>
 
