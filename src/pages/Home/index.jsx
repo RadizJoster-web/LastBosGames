@@ -100,7 +100,7 @@ export default function Home() {
       </section>
 
       <AdBanner
-        dataKey={import.meta.env.VITE_AD_BANNER_468}
+        dataKey="ed01f10c39d356f0d3799ba29b010315"
         width={468}
         height={60}
       />
@@ -181,7 +181,7 @@ export default function Home() {
       </section>
 
       <AdBanner
-        dataKey={import.meta.env.VITE_AD_BANNER_728}
+        dataKey="b7bbce8413a0352f77ccd779ba193a61"
         width={728}
         height={90}
       />

@@ -100,7 +100,7 @@ export default function Emulator() {
       </section>
 
       <AdBanner
-        dataKey={import.meta.env.VITE_AD_BANNER_728}
+        dataKey="b7bbce8413a0352f77ccd779ba193a61"
         width={728}
         height={90}
       />
