@@ -2,14 +2,36 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpg" href="/icon.webp" />
+
+    <!-- PERBAIKAN 1: Favicon. Pastikan Anda sudah menghapus vite.svg dan menggantinya dengan logo Anda -->
+    <link rel="icon" type="image/webp" href="/icon.webp" />
+    <!-- Tambahkan Apple Touch Icon agar Google lebih cepat mengenali logo Anda -->
+    <link rel="apple-touch-icon" href="/icon.webp" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- PERBAIKAN 2: Meta Tag Dasar untuk Branding -->
+    <meta property="og:site_name" content="Last bos Games" />
+    <meta name="application-name" content="Last bos Games" />
+
+    <!-- PERBAIKAN 3: JSON-LD (KTP Resmi Situs untuk Google) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Last bos Games",
+        "alternateName": "LBG",
+        "url": "https://lastbosgaames.vercel.app/"
+      }
+    </script>
+
+    <link rel="stylesheet" href="/src/index.css" /> 
+    <title>LBG - Last Bos Games</title>
+
     <meta
       name="google-site-verification"
       content="gnbQeimmtqmM5F7lNEPJUkj0KB2y4Wr3YpAl1Kl96D0"
     />
-    <link rel="stylesheet" href="/src/index.css" />
-    <title>LBG - Last Bos Games</title>
   </head>
   <body>
     <div id="root"></div>

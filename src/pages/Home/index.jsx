@@ -11,23 +11,32 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-20 md:gap-32 pb-16 overflow-x-hidden">
       <Helmet>
-        <title>LBG | Game Download Catalog</title>
+        {/* Judul yang menargetkan kata kunci pencarian terbanyak */}
+        <title>Last Bos Games | Download Game & ROMs Gratis Full Version</title>
+
+        {/* Deskripsi Clickbait yang menjanjikan solusi tanpa ribet */}
         <meta
           name="description"
-          content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
+          content="Download gratis tausan ROM game PS2, PSP, Retro, dan PC Full Version. Link download super cepat, tanpa ribet, langsung main. Unduh file dan emulatornya sekarang!"
         />
-        <link rel="canonical" href="https://last-bos-games.vercel.app/" />
+
+        {/* Canonical pastikan menggunakan domain baru Anda */}
+        <link rel="canonical" href="https://lastbosgames.vercel.app/" />
+
+        {/* Open Graph untuk Social Media/Discord */}
         <meta
           property="og:title"
-          content="Last Bos Games | Game Download Catalog"
+          content="Last Boss Games | Free Download ROMs & Games"
         />
         <meta
           property="og:description"
-          content="Katalog game pilihan dengan tautan unduhan langsung."
+          content="Gudang download ROM game terlengkap. Link direct kecepatan penuh tanpa jebakan batman."
         />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://lastbosgames.vercel.app/" />
         <meta
           property="og:image"
-          content="https://last-bos-games.vercel.app/icon.webp"
+          content="https://lastbosgaames.vercel.app/icon.webp"
         />
       </Helmet>
 
