@@ -273,7 +273,7 @@ export default function Games() {
 
       {/* BANNER IKLAN */}
       <AdBanner
-        dataKey="6df18de5456453f3bbfa52c33bf2bad6"
+        dataKey={import.meta.env.VITE_AD_BANNER_728}
         width={728}
         height={90}
       />

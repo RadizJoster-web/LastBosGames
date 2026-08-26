@@ -152,7 +152,7 @@ export default function GameDetail() {
               {game.title}
             </h1>
             <p className="text-xl font-body text-ink/80 leading-relaxed border-l-4 border-primary pl-4">
-              "{game.shortDescription}" 
+              "{game.shortDescription}"
             </p>
           </div>
 
@@ -169,7 +169,7 @@ export default function GameDetail() {
           </div>
 
           <AdBanner
-            dataKey="6df18de5456453f3bbfa52c33bf2bad6"
+            dataKey={import.meta.env.VITE_AD_BANNER_728}
             width={728}
             height={90}
           />
@@ -285,7 +285,7 @@ export default function GameDetail() {
         </div>
 
         <AdBanner
-          dataKey="cae8e1487980ee0ded892fe6f32df4b0"
+          dataKey={import.meta.env.VITE_AD_BANNER_468}
           width={468}
           height={60}
         />
@@ -308,7 +308,8 @@ export default function GameDetail() {
       />
 
       {/* NATIVE BANNER (Akan menampilkan grid artikel sponsor) */}
-      <NativeBanner />
+      {/* Kapan-Kapan ditambahkan */}
+      {/* <NativeBanner /> */}
     </div>
   );
 }
