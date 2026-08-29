@@ -11,8 +11,7 @@ export function useRecentGames() {
     title,
     slug,
     thumbnail,
-    shortDescription,
-    platform[]->{name},
+      platform[]->{name},
     genre[]->{name},
     region->{name}
   }`;
@@ -64,7 +63,7 @@ export function useFilteredGames(
     && ($genre == "" || $genre in genre[]->slug.current)
     && ($region == "" || region->code == $region)]
     | order(${sortOrder}) [$start...$end] {
-      _id, title, slug, thumbnail, shortDescription,
+      _id, title, slug, thumbnail,
       platform[]->{name}, genre[]->{name}, region->{name}
     }`;
 
@@ -90,7 +89,7 @@ export function useFilteredGames(
 export function useGameDetail(slug) {
   // Query spesifik mengambil 1 game berdasarkan slug
   const query = `*[_type == "game" && slug.current == "${slug}"][0] {
-    _id, title, slug, thumbnail, shortDescription, fullDescription,
+    _id, title, slug, thumbnail, fullDescription,
     platform[]->{name}, genre[]->{name}, region->{name},
     language, fileSize, releaseYear, developer, publisher,
     screenshots, downloadLinks

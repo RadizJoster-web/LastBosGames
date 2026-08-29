@@ -43,7 +43,7 @@ export default function GameDetail() {
     import.meta.env.VITE_SITE_URL || "https://last-bos-games.vercel.app";
   const canonicalUrl = `${siteUrl}/game/${game?.slug?.current}`;
   const description =
-    game?.shortDescription ||
+    game?.fullDescription ||
     `Download informasi dan file untuk ${game?.title}.`;
 
   // Mengambil URL gambar dengan resolusi standar Open Graph (1200x630)
@@ -147,14 +147,9 @@ export default function GameDetail() {
 
         {/* Metadata */}
         <div className="w-full lg:w-2/3 flex flex-col gap-6">
-          <div>
-            <h1 className="text-4xl md:text-6xl font-display font-black text-ink uppercase leading-none mb-4">
-              {game.title}
-            </h1>
-            <p className="text-xl font-body text-ink/80 leading-relaxed border-l-4 border-primary pl-4">
-              "{game.shortDescription}"
-            </p>
-          </div>
+          <h1 className="text-4xl md:text-6xl font-display font-black text-ink uppercase leading-none mb-4">
+            {game.title}
+          </h1>
 
           <div className="flex flex-col gap-0 bg-white border border-border-subtle p-5 rounded-xl shadow-sm">
             <MetaItem
