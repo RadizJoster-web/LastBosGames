@@ -45,7 +45,7 @@ export function useFilterOptions() {
 }
 
 // Hook untuk mengambil game dengan parameter filter
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 8;
 
 export function useFilteredGames(
   search,
@@ -57,8 +57,8 @@ export function useFilteredGames(
 ) {
   const sortOrder = isPopular ? "popularityScore desc" : "_createdAt desc";
 
-  // Menggunakan parameter GROQ ($) agar aman dari error tanda kutip
-  const query = `*[_type == "game" && title match $search
+  // 1. Query untuk mengambil data game
+  const gamesQuery = `*[_type == "game" && title match $search
     && ($platform == "" || $platform in platform[]->slug.current)
     && ($genre == "" || $genre in genre[]->slug.current)
     && ($region == "" || region->code == $region)]
@@ -67,7 +67,18 @@ export function useFilteredGames(
       platform[]->{name}, genre[]->{name}, region->{name}
     }`;
 
-  // Mengirim parameter data secara terpisah
+  // 2. Query tambahan count() untuk menghitung TOTAL item tanpa dibatasi pagination
+  const countQuery = `count(*[_type == "game" && title match $search
+    && ($platform == "" || $platform in platform[]->slug.current)
+    && ($genre == "" || $genre in genre[]->slug.current)
+    && ($region == "" || region->code == $region)])`;
+
+  // Gabungkan query menjadi satu kali fetch agar hemat request
+  const combinedQuery = `{
+    "games": ${gamesQuery},
+    "total": ${countQuery}
+  }`;
+
   const params = {
     search: search ? `*${search}*` : "*",
     platform: platform || "",
@@ -78,12 +89,21 @@ export function useFilteredGames(
   };
 
   const { data, error, isLoading } = useSWR(
-    [query, params], // Key SWR berupa array query dan parameter[cite: 1]
-    ([groq, groqParams]) => sanityClient.fetch(groq, groqParams), // Eksekusi fetcher langsung ke Sanity[cite: 1]
+    [combinedQuery, params],
+    ([groq, groqParams]) => sanityClient.fetch(groq, groqParams),
     { revalidateOnFocus: false },
   );
 
-  return { games: data || [], isLoading, isError: error };
+  const totalGames = data?.total || 0;
+  const totalPages = Math.ceil(totalGames / 12);
+
+  return {
+    games: data?.games || [],
+    totalPages,
+    totalGames,
+    isLoading,
+    isError: error,
+  };
 }
 
 export function useGameDetail(slug) {

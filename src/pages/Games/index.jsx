@@ -30,7 +30,7 @@ export default function Games() {
   }, [page]);
 
   // PERBAIKAN 1: Menambahkan 'page' ke dalam parameter hook
-  const { games, isLoading, isError } = useFilteredGames(
+  const { games, totalPages, isLoading, isError } = useFilteredGames(
     search,
     platform,
     genre,
@@ -213,7 +213,7 @@ export default function Games() {
           <>
             {isLoading && (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-                {Array.from({ length: 12 }).map((_, i) => (
+                {Array.from({ length: 8 }).map((_, i) => (
                   <SkeletonCard key={i} />
                 ))}
               </div>
@@ -247,26 +247,75 @@ export default function Games() {
       </section>
 
       {/* KONTROL PAGINATION */}
-      {!isLoading && !isError && games.length > 0 && (
-        <div className="flex justify-center items-center gap-6 mt-16 pb-8">
+      {!isLoading && !isError && totalPages > 1 && (
+        <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3 mt-16 pb-8">
+          {/* Tombol Sebelumnya */}
           <button
-            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            onClick={() => {
+              setPage((p) => Math.max(0, p - 1));
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             disabled={page === 0}
-            className="btn-brutal px-4 py-2 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+            className="bg-surface text-ink px-3 py-2 border-2 border-ink font-display font-bold text-xs sm:text-sm uppercase shadow-[2px_2px_0px_#0F0F0F] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-40 disabled:hover:translate-y-0 disabled:cursor-not-allowed transition-all"
           >
-            SEBELUMNYA
+            &laquo; PREV
           </button>
 
-          <span className="font-display text-2xl font-black text-ink">
-            HAL {page + 1}
-          </span>
+          {/* Daftar Nomor Halaman (Klik Langsung Loncat) */}
+          <div className="flex flex-wrap gap-2 items-center">
+            {Array.from({ length: totalPages }).map((_, index) => {
+              const pageNumber = index;
+              const isActive = page === pageNumber;
 
+              // Tampilkan nomor jika dekat dengan halaman aktif (agar tidak terlalu panjang jika ada 50+ halaman)
+              const isNearCurrent = Math.abs(pageNumber - page) <= 2;
+              const isFirstOrLast =
+                pageNumber === 0 || pageNumber === totalPages - 1;
+
+              if (!isNearCurrent && !isFirstOrLast) {
+                // Tampilkan titik-titik (...) sebagai pemisah
+                if (pageNumber === 1 || pageNumber === totalPages - 2) {
+                  return (
+                    <span
+                      key={pageNumber}
+                      className="font-display font-bold text-ink px-1"
+                    >
+                      ...
+                    </span>
+                  );
+                }
+                return null;
+              }
+
+              return (
+                <button
+                  key={pageNumber}
+                  onClick={() => {
+                    setPage(pageNumber);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className={`min-w-[36px] h-[36px] px-2 flex items-center justify-center border-2 border-ink font-display font-black text-sm transition-all ${
+                    isActive
+                      ? "bg-primary text-white shadow-[1px_1px_0px_#0F0F0F] translate-y-0.5 translate-x-0.5" // Tampilan saat aktif
+                      : "bg-white text-ink shadow-[3px_3px_0px_#0F0F0F] hover:-translate-y-0.5 hover:-translate-x-0.5" // Tampilan saat biasa
+                  }`}
+                >
+                  {pageNumber + 1}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Tombol Selanjutnya */}
           <button
-            onClick={() => setPage((p) => p + 1)}
-            disabled={games.length < 12}
-            className="btn-brutal px-4 py-2 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+            onClick={() => {
+              setPage((p) => Math.min(totalPages - 1, p + 1));
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            disabled={page >= totalPages - 1}
+            className="bg-surface text-ink px-3 py-2 border-2 border-ink font-display font-bold text-xs sm:text-sm uppercase shadow-[2px_2px_0px_#0F0F0F] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-40 disabled:hover:translate-y-0 disabled:cursor-not-allowed transition-all"
           >
-            SELANJUTNYA
+            NEXT &raquo;
           </button>
         </div>
       )}
