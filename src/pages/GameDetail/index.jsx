@@ -15,6 +15,8 @@ export default function GameDetail() {
   const navigate = useNavigate();
   const { game, isLoading, isError } = useGameDetail(slug);
 
+  console.log(game);
+
   // State untuk Lightbox
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -40,7 +42,7 @@ export default function GameDetail() {
 
   // Menyiapkan variabel SEO
   const siteUrl =
-    import.meta.env.VITE_SITE_URL || "https://last-bos-games.vercel.app";
+    import.meta.env.VITE_SITE_URL || "https://lastbosgames.vercel.app";
   const canonicalUrl = `${siteUrl}/game/${game?.slug?.current}`;
   const description =
     game?.fullDescription ||
@@ -240,26 +242,17 @@ export default function GameDetail() {
                   </h3>
                 </div>
 
-                {link.status === "active" ? (
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-primary text-white font-display text-sm font-bold px-6 py-3 rounded uppercase tracking-widest hover:bg-primary-hover transition-colors w-full sm:w-auto text-center shrink-0"
-                  >
-                    DOWNLOAD{" "}
-                    <span className="opacity-75 font-normal ml-1">
-                      ({link.fileSize || "Unknown"})
-                    </span>
-                  </a>
-                ) : (
-                  <button
-                    disabled
-                    className="bg-border-subtle text-ink/50 font-display text-sm font-bold px-6 py-3 rounded uppercase w-full sm:w-auto cursor-not-allowed shrink-0"
-                  >
-                    TIDAK TERSEDIA
-                  </button>
-                )}
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-primary text-white font-display text-sm font-bold px-6 py-3 rounded uppercase tracking-widest hover:bg-primary-hover transition-colors w-full sm:w-auto text-center shrink-0"
+                >
+                  DOWNLOAD{" "}
+                  <span className="opacity-75 font-normal ml-1">
+                    ({link.fileSize || "Unknown"})
+                  </span>
+                </a>
               </div>
             ))}
           </div>
