@@ -8,6 +8,8 @@ export default function GameCard({ game }) {
   // Kembali menggunakan fit("crop") karena sekarang seluruh kartu adalah posternya
   const image = urlFor(game.thumbnail).auto("format").fit("crop");
 
+  console.log("Rendering GameCard for:", game);
+
   return (
     <Link
       to={`/game/${game.slug?.current}`}
@@ -18,7 +20,6 @@ export default function GameCard({ game }) {
         <img
           src={image.width(600).height(800).url()}
           srcSet={[320, 480, 600]
-
             .map(
               (w) =>
                 `${image
@@ -42,7 +43,6 @@ export default function GameCard({ game }) {
       )}
 
       {/* 2. LAYER ATAS (HOVER OVERLAY): Muncul dari bawah */}
-
       <div className="absolute inset-0 bg-surface translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out flex flex-col z-10 border-t-8 border-transparent group-hover:border-primary">
         {/* Bagian Judul (Tengah) */}
 
@@ -52,10 +52,9 @@ export default function GameCard({ game }) {
           </h3>
 
           {/* Label Platform ala Neo-Brutalist */}
-
-          {game.platform?.[0] && (
+          {game.platform && (
             <span className="bg-primary text-white text-sm font-display font-bold px-4 py-1 border-2 border-ink shadow-[3px_3px_0px_#0F0F0F] uppercase tracking-wider translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-              {game.platform[0].name}
+              {game.platform.name}
             </span>
           )}
         </div>

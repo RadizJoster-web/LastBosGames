@@ -8,10 +8,10 @@ const fetcher = (query) => sanityClient.fetch(query);
 export function useRecentGames() {
   const query = `*[_type == "game"] | order(_createdAt desc)[0...4] {
     _id,
-    title,
+    title,  
     slug,
     thumbnail,
-      platform[]->{name},
+    platform->{name}, 
     genre[]->{name},
     region->{name}
   }`;
@@ -59,17 +59,17 @@ export function useFilteredGames(
 
   // 1. Query untuk mengambil data game
   const gamesQuery = `*[_type == "game" && title match $search
-    && ($platform == "" || $platform in platform[]->slug.current)
+    && ($platform == "" || platform->slug.current == $platform) // REVISI: Logika filter diubah dari 'in' menjadi '=='
     && ($genre == "" || $genre in genre[]->slug.current)
     && ($region == "" || region->code == $region)]
     | order(${sortOrder}) [$start...$end] {
       _id, title, slug, thumbnail,
-      platform[]->{name}, genre[]->{name}, region->{name}
+      platform->{name}, genre[]->{name}, region->{name} // REVISI: Hapus []
     }`;
 
   // 2. Query tambahan count() untuk menghitung TOTAL item tanpa dibatasi pagination
   const countQuery = `count(*[_type == "game" && title match $search
-    && ($platform == "" || $platform in platform[]->slug.current)
+    && ($platform == "" || platform->slug.current == $platform) // REVISI: Logika filter disamakan dengan gamesQuery
     && ($genre == "" || $genre in genre[]->slug.current)
     && ($region == "" || region->code == $region)])`;
 
@@ -95,7 +95,8 @@ export function useFilteredGames(
   );
 
   const totalGames = data?.total || 0;
-  const totalPages = Math.ceil(totalGames / 12);
+  // REVISI BUG PAGINATION: Gunakan PAGE_SIZE, bukan angka statis 12
+  const totalPages = Math.ceil(totalGames / PAGE_SIZE);
 
   return {
     games: data?.games || [],
@@ -110,7 +111,7 @@ export function useGameDetail(slug) {
   // Query spesifik mengambil 1 game berdasarkan slug
   const query = `*[_type == "game" && slug.current == "${slug}"][0] {
     _id, title, slug, thumbnail, fullDescription,
-    platform[]->{name}, genre[]->{name}, region->{name},
+    platform->{name}, genre[]->{name}, region->{name}, // REVISI: Hapus []
     language, fileSize, releaseYear, developer, publisher,
     screenshots, downloadLinks
   }`;
