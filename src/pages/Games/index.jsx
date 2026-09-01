@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+// 1. TAMBAHKAN IMPORT useSearchParams
+import { useSearchParams } from "react-router-dom";
 import { useFilteredGames, useFilterOptions } from "../../hooks/useGames";
 import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
@@ -15,12 +17,35 @@ export default function Games() {
   const [region, setRegion] = useState("");
   const [isPopular, setIsPopular] = useState(false);
 
-  const [page, setPage] = useState(0);
+  // 2. REVISI STATE PAGE KE URL PARAMS
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Baca page dari URL (jika tidak ada, default 0)
+  const pageParam = searchParams.get("page");
+  const page = pageParam ? parseInt(pageParam, 10) - 1 : 0;
+
+  // Modifikasi fungsi setPage agar memperbarui URL dan mendukung fungsi (p) => p + 1
+  const setPage = (updater) => {
+    setSearchParams((prevParams) => {
+      const currentPage = prevParams.get("page")
+        ? parseInt(prevParams.get("page"), 10) - 1
+        : 0;
+      const newPage =
+        typeof updater === "function" ? updater(currentPage) : updater;
+
+      const newUrlParams = new URLSearchParams(prevParams);
+      if (newPage === 0) {
+        newUrlParams.delete("page"); // Biarkan URL bersih jika di halaman 1
+      } else {
+        newUrlParams.set("page", newPage + 1); // Simpan ke URL sebagai halaman 2, 3, dst
+      }
+      return newUrlParams;
+    });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(searchInput.trim());
-      setPage(0);
     }, 300);
     return () => clearTimeout(timer);
   }, [searchInput]);
@@ -29,7 +54,6 @@ export default function Games() {
     window.scrollTo(0, 0);
   }, [page]);
 
-  // PERBAIKAN 1: Menambahkan 'page' ke dalam parameter hook
   const { games, totalPages, isLoading, isError } = useFilteredGames(
     search,
     platform,
@@ -43,12 +67,14 @@ export default function Games() {
 
   const resetFilters = () => {
     setSearch("");
-    setSearchInput(""); // Pastikan input visual juga ikut ter-reset
+    setSearchInput("");
     setPlatform("");
     setGenre("");
     setRegion("");
-    setPage(0);
     setIsPopular(false);
+
+    // 3. REVISI RESET FILTER: Hapus semua parameter di URL
+    setSearchParams(new URLSearchParams());
   };
 
   return (
@@ -59,7 +85,7 @@ export default function Games() {
           name="description"
           content="Katalog game pilihan dengan tautan unduhan langsung. Temukan file, jalankan emulator, dan hancurkan skor tertinggi."
         />
-        <link rel="canonical" href="https://last-bos-games.vercel.app/" />
+        <link rel="canonical" href="https://lastbosgaames.vercel.app/" />
         <meta property="og:title" content="Last Bos Games | Games" />
         <meta
           property="og:description"
@@ -67,7 +93,7 @@ export default function Games() {
         />
         <meta
           property="og:image"
-          content="https://last-bos-games.vercel.app/icon.webp"
+          content="https://lastbosgaames.vercel.app/icon.webp"
         />
       </Helmet>
 
@@ -213,7 +239,7 @@ export default function Games() {
           <>
             {isLoading && (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-                {Array.from({ length: 8 }).map((_, i) => (
+                {Array.from({ length: 12 }).map((_, i) => (
                   <SkeletonCard key={i} />
                 ))}
               </div>
@@ -267,13 +293,11 @@ export default function Games() {
               const pageNumber = index;
               const isActive = page === pageNumber;
 
-              // Tampilkan nomor jika dekat dengan halaman aktif (agar tidak terlalu panjang jika ada 50+ halaman)
               const isNearCurrent = Math.abs(pageNumber - page) <= 2;
               const isFirstOrLast =
                 pageNumber === 0 || pageNumber === totalPages - 1;
 
               if (!isNearCurrent && !isFirstOrLast) {
-                // Tampilkan titik-titik (...) sebagai pemisah
                 if (pageNumber === 1 || pageNumber === totalPages - 2) {
                   return (
                     <span
@@ -296,8 +320,8 @@ export default function Games() {
                   }}
                   className={`min-w-[36px] h-[36px] px-2 flex items-center justify-center border-2 border-ink font-display font-black text-sm transition-all ${
                     isActive
-                      ? "bg-primary text-white shadow-[1px_1px_0px_#0F0F0F] translate-y-0.5 translate-x-0.5" // Tampilan saat aktif
-                      : "bg-white text-ink shadow-[3px_3px_0px_#0F0F0F] hover:-translate-y-0.5 hover:-translate-x-0.5" // Tampilan saat biasa
+                      ? "bg-primary text-white shadow-[1px_1px_0px_#0F0F0F] translate-y-0.5 translate-x-0.5"
+                      : "bg-white text-ink shadow-[3px_3px_0px_#0F0F0F] hover:-translate-y-0.5 hover:-translate-x-0.5"
                   }`}
                 >
                   {pageNumber + 1}
@@ -320,7 +344,7 @@ export default function Games() {
         </div>
       )}
 
-      {/* BANNER IKLAN */}
+      {/* BANNER IKLAN (Sebaiknya gunakan import.meta.env seperti saran sebelumnya, tapi untuk saat ini saya pertahankan kode Anda) */}
       <AdBanner
         dataKey="b7bbce8413a0352f77ccd779ba193a61"
         width={728}
