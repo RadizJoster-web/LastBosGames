@@ -15,8 +15,6 @@ export default function GameDetail() {
   const navigate = useNavigate();
   const { game, isLoading, isError } = useGameDetail(slug);
 
-  console.log(game);
-
   // State untuk Lightbox
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -103,7 +101,7 @@ export default function GameDetail() {
               description: description,
               image: imageUrl,
               url: canonicalUrl,
-              operatingSystem: game.platform?.map((item) => item.name),
+              operatingSystem: game.platform.name,
               datePublished: game.releaseYear
                 ? `${game.releaseYear}-01-01`
                 : undefined,
@@ -161,7 +159,7 @@ export default function GameDetail() {
             <MetaItem label="Region" value={game.region?.name} />
             <MetaItem label="Tahun Rilis" value={game.releaseYear} />
             <MetaItem label="Ukuran File" value={game.fileSize} />
-            <MetaItem label="Bahasa" value={game.language?.join(", ")} />
+            <MetaItem label="Bahasa" value={game.language} />
             <MetaItem label="Developer" value={game.developer} />
           </div>
 

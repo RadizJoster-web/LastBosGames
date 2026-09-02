@@ -8,8 +8,6 @@ export default function GameCard({ game }) {
   // Kembali menggunakan fit("crop") karena sekarang seluruh kartu adalah posternya
   const image = urlFor(game.thumbnail).auto("format").fit("crop");
 
-  console.log("Rendering GameCard for:", game);
-
   return (
     <Link
       to={`/game/${game.slug?.current}`}
