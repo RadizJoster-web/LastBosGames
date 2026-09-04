@@ -9,3 +9,4 @@ export { default as BannerAd } from "./BannerAd";
 export { default as SkyscraperAd } from "./SkyscraperAd";
 export { default as NativeAd } from "./NativeAd";
 export { default as AdRow } from "./AdRow";
+export { default as AdCluster } from "./AdCluster";

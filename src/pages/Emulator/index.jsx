@@ -4,7 +4,7 @@ import { ExternalLink, X, Gamepad2, MonitorSmartphone } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { useEmulators } from "../../hooks/useGames";
 import { imgFor } from "../../services/sanity";
-import { LeaderboardAd, RectangleAd } from "../../components/ads";
+import { AdCluster } from "../../components/ads";
 
 const SHELL = "mx-auto max-w-[1400px] px-5 md:px-8";
 
@@ -249,14 +249,7 @@ export default function Emulator() {
           </div>
         )}
 
-        <div className="flex justify-end items-end gap-4 mt-15">
-          <RectangleAd />
-          <div className="flex flex-col gap-4">
-            <LeaderboardAd />
-            <LeaderboardAd />
-          </div>
-          <RectangleAd />
-        </div>
+        <AdCluster className="mt-16" />
       </div>
     </div>
   );
@@ -399,10 +392,13 @@ function EmulatorCard({ emulator, forConsole, onHost }) {
         href={emulator.downloadUrl || "#"}
         target="_blank"
         rel="noopener noreferrer"
-        className="btn-outline mt-5 w-full !px-3 !py-2.5 !text-[11px]"
+        className="mt-5 flex items-center justify-between gap-2 rounded-lg border border-line bg-carbon px-3.5 py-2.5 font-head text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-dim transition-colors hover:border-accent hover:bg-accent hover:text-white"
       >
         Situs resmi
-        <ExternalLink size={13} />
+        <ExternalLink
+          size={13}
+          className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5"
+        />
       </a>
     </article>
   );

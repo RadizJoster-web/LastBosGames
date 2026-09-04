@@ -11,10 +11,7 @@ const KEY_300 = "15f3025432f4873e780149c8ad7d739a"; // Adsterra 300x250
 
 export default function LeaderboardAd({ className = "" }) {
   return (
-    <div
-      className={`flex w-full justify-center ${className}`}
-      aria-label="Iklan"
-    >
+    <div className={`flex justify-center ${className}`} aria-label="Iklan">
       <div className="hidden lg:block">
         <AdFrame adKey={KEY_728} w={728} h={90} />
       </div>

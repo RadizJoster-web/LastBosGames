@@ -15,11 +15,7 @@ import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
 import SakuraField from "../../components/common/SakuraField";
 import ScrollColorText from "../../components/common/ScrollColorText";
-import {
-  SkyscraperAd,
-  LeaderboardAd,
-  RectangleAd,
-} from "../../components/ads";
+import { SkyscraperAd, AdCluster } from "../../components/ads";
 
 const SHELL = "mx-auto max-w-[1400px] px-5 md:px-8";
 
@@ -359,14 +355,7 @@ export default function Home() {
         </Link>
 
         {/* ================= IKLAN ================= */}
-        <div className="flex justify-end items-end gap-4 mt-15">
-          <RectangleAd />
-          <div className="flex flex-col gap-4">
-            <LeaderboardAd />
-            <LeaderboardAd />
-          </div>
-          <RectangleAd />
-        </div>
+        <AdCluster className="mt-16" />
       </section>
 
       {/* ================= CTA ================= */}

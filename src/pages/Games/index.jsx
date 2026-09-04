@@ -12,7 +12,7 @@ import {
 import { useFilteredGames, useFilterOptions } from "../../hooks/useGames";
 import GameCard from "../../components/game/GameCard";
 import SkeletonCard from "../../components/common/SkeletonCard";
-import { LeaderboardAd, RectangleAd } from "../../components/ads";
+import { AdCluster } from "../../components/ads";
 
 const SHELL = "mx-auto max-w-[1400px] px-5 md:px-8";
 
@@ -339,7 +339,7 @@ export default function Games() {
         {/* PAGINATION */}
         {!isLoading && !isError && totalPages > 1 && (
           <nav
-            className="mt-14 flex flex-wrap items-center justify-center gap-2"
+            className="mt-14 flex items-center justify-center gap-1.5 sm:gap-2"
             aria-label="Navigasi halaman"
           >
             <button
@@ -348,16 +348,18 @@ export default function Games() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               disabled={page === 0}
-              className="inline-flex h-9 items-center gap-1 rounded-lg border border-line bg-carbon px-3 font-head text-xs font-semibold uppercase tracking-widest text-ink transition-colors hover:border-accent/40 disabled:pointer-events-none disabled:opacity-30"
+              aria-label="Halaman sebelumnya"
+              className="inline-flex h-9 shrink-0 items-center gap-1 rounded-lg border border-line bg-carbon px-2.5 font-head text-xs font-semibold uppercase tracking-widest text-ink transition-colors hover:border-accent/40 disabled:pointer-events-none disabled:opacity-30 sm:px-3"
             >
-              <ChevronLeft size={15} /> Prev
+              <ChevronLeft size={15} />
+              <span className="hidden sm:inline">Prev</span>
             </button>
 
-            <div className="flex flex-wrap items-center gap-1.5">
+            <div className="no-scrollbar flex items-center gap-1 overflow-x-auto sm:gap-1.5">
               {Array.from({ length: totalPages }).map((_, index) => {
                 const pageNumber = index;
                 const isActive = page === pageNumber;
-                const isNearCurrent = Math.abs(pageNumber - page) <= 2;
+                const isNearCurrent = Math.abs(pageNumber - page) <= 1;
                 const isFirstOrLast =
                   pageNumber === 0 || pageNumber === totalPages - 1;
 
@@ -366,7 +368,7 @@ export default function Games() {
                     return (
                       <span
                         key={pageNumber}
-                        className="px-1 font-head text-sm text-ink-faint"
+                        className="px-0.5 font-head text-sm text-ink-faint"
                       >
                         …
                       </span>
@@ -383,7 +385,7 @@ export default function Games() {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     aria-current={isActive ? "page" : undefined}
-                    className={`flex h-9 min-w-9 items-center justify-center rounded-lg px-2 font-head text-sm font-bold transition-colors ${
+                    className={`flex h-9 min-w-9 shrink-0 items-center justify-center rounded-lg px-1.5 font-head text-sm font-bold transition-colors ${
                       isActive
                         ? "bg-accent text-white"
                         : "border border-line bg-carbon text-ink-dim hover:border-accent/40 hover:text-ink"
@@ -401,22 +403,17 @@ export default function Games() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               disabled={page >= totalPages - 1}
-              className="inline-flex h-9 items-center gap-1 rounded-lg border border-line bg-carbon px-3 font-head text-xs font-semibold uppercase tracking-widest text-ink transition-colors hover:border-accent/40 disabled:pointer-events-none disabled:opacity-30"
+              aria-label="Halaman berikutnya"
+              className="inline-flex h-9 shrink-0 items-center gap-1 rounded-lg border border-line bg-carbon px-2.5 font-head text-xs font-semibold uppercase tracking-widest text-ink transition-colors hover:border-accent/40 disabled:pointer-events-none disabled:opacity-30 sm:px-3"
             >
-              Next <ChevronRight size={15} />
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight size={15} />
             </button>
           </nav>
         )}
 
-        {/* Leaderboard tepat di atas footer — 728x90 desktop, 300x250 mobile */}
-        <div className="flex justify-end items-end gap-4 mt-15">
-          <RectangleAd />
-          <div className="flex flex-col gap-4">
-            <LeaderboardAd />
-            <LeaderboardAd />
-          </div>
-          <RectangleAd />
-        </div>
+        {/* Kluster iklan tepat di atas footer */}
+        <AdCluster className="mt-16" />
       </div>
 
       {/* DRAWER FILTER (mobile) */}
