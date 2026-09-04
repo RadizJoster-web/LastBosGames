@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import { urlFor } from "../../services/sanity";
+import { imgFor } from "../../services/sanity";
 
 export default function ScreenshotLightbox({
   images,
@@ -15,57 +15,59 @@ export default function ScreenshotLightbox({
       if (e.key === "ArrowRight") onNavigate("next");
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
   }, [onClose, onNavigate]);
 
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink/95 backdrop-blur-md p-4">
-      {/* Backdrop */}
-      <div className="absolute inset-0" onClick={onClose}></div>
+    <div className="fixed inset-0 z-[100] isolate flex flex-col items-center justify-center bg-void/95 p-4 backdrop-blur-md animate-fade-in">
+      <div className="absolute inset-0" onClick={onClose} />
 
-      {/* Tombol Tutup di pojok atas */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 md:top-6 md:right-6 z-20 bg-surface border-2 border-ink p-2 hover:bg-white transition-colors rounded-sm"
+        className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-line bg-void/60 text-ink transition-colors hover:bg-white/[0.06] md:right-6 md:top-6"
+        aria-label="Tutup"
       >
-        <X size={28} className="text-ink" />
+        <X size={20} />
       </button>
 
-      {/* Kontainer Gambar Utama */}
       <div
-        className="relative z-10 w-full max-w-5xl flex-grow flex items-center justify-center min-h-0 mb-6 mt-12 md:mt-0"
+        className="relative z-10 mb-6 mt-12 flex min-h-0 w-full max-w-5xl flex-grow items-center justify-center md:mt-0"
         onClick={(e) => e.stopPropagation()}
       >
         <img
-          src={urlFor(images[currentIndex]).width(1200).url()}
-          alt={`Screenshot ${currentIndex + 1}`}
-          className="max-w-full max-h-[75vh] object-contain border-4 border-ink shadow-[8px_8px_0px_#0F0F0F] bg-black"
+          src={imgFor(images[currentIndex], 80).width(1400).url()}
+          alt={`Tangkapan layar ${currentIndex + 1}`}
+          className="max-h-[75vh] max-w-full rounded-lg border border-line object-contain"
         />
       </div>
 
-      {/* Control Bar Navigasi (Selalu di bawah gambar, aman dari touch overlap) */}
       <div
-        className="relative z-20 flex items-center justify-center gap-6 md:gap-10 shrink-0 mb-4"
+        className="relative z-20 flex shrink-0 items-center justify-center gap-5 md:gap-7"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={() => onNavigate("prev")}
-          className="bg-surface border-4 border-ink p-3 shadow-[4px_4px_0px_#8A1010] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-void/60 text-ink transition-colors hover:border-accent/50"
+          aria-label="Sebelumnya"
         >
-          <ChevronLeft size={28} className="text-ink" />
+          <ChevronLeft size={20} />
         </button>
-
-        <div className="bg-ink text-white font-display px-6 py-2 border-2 border-white text-lg tracking-widest">
-          {currentIndex + 1} / {images.length}
-        </div>
-
+        <span className="font-mono text-xs tracking-[0.3em] text-ink-dim">
+          {String(currentIndex + 1).padStart(2, "0")} /{" "}
+          {String(images.length).padStart(2, "0")}
+        </span>
         <button
           onClick={() => onNavigate("next")}
-          className="bg-surface border-4 border-ink p-3 shadow-[4px_4px_0px_#8A1010] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-void/60 text-ink transition-colors hover:border-accent/50"
+          aria-label="Berikutnya"
         >
-          <ChevronRight size={28} className="text-ink" />
+          <ChevronRight size={20} />
         </button>
       </div>
     </div>

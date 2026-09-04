@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <style>
-      /* Mengunci agar iklan presisi di tengah tanpa scrollbar */
+      html,
       body {
         margin: 0;
         padding: 0;
@@ -17,15 +17,28 @@
   </head>
   <body>
     <script>
-      // Menangkap parameter kunci rahasia dan ukuran dari React
-      const urlParams = new URLSearchParams(window.location.search);
-      const key = urlParams.get("key");
-      const w = urlParams.get("w");
-      const h = urlParams.get("h");
+      // Parameter dikirim komponen <AdFrame />: key, w, h, host.
+      var p = new URLSearchParams(window.location.search);
+      var key = p.get("key");
+      var w = p.get("w");
+      var h = p.get("h");
 
-      // Mengeksekusi script asli Adsterra menggunakan document.write jadul yang mereka sukai
-      if (key) {
-        document.write("<scr" + 'ipt type="text/javascript">');
+      // Rantai host: host pilihan dulu, lalu fallback bawaan Adsterra.
+      var tried = (p.get("tried") || "").split(",").filter(Boolean);
+      var chain = [
+        (p.get("host") || "").replace(/^https?:\/\//, "").replace(/\/+$/, ""),
+        "www.highrevenueformat.com",
+        "www.profitabledisplaynetwork.com",
+      ].filter(function (host, i, arr) {
+        return host && arr.indexOf(host) === i && tried.indexOf(host) === -1;
+      });
+
+      var host = chain[0];
+
+      if (key && w && h && host) {
+        // Pola klasik Adsterra: atOptions global + invoke.js lewat document.write
+        // (invoke.js sendiri memakai document.write, jadi harus sinkron saat parse).
+        document.write('<scr' + 'ipt type="text/javascript">');
         document.write(
           'atOptions = { "key": "' +
             key +
@@ -37,12 +50,26 @@
         );
         document.write("</scr" + "ipt>");
         document.write(
-          "<scr" +
-            'ipt type="text/javascript" src="https://www.highrevenueformat.com/' +
+          '<scr' +
+            'ipt type="text/javascript" src="https://' +
+            host +
+            "/" +
             key +
             '/invoke.js"></scr' +
             "ipt>",
         );
+
+        // Kalau setelah 4 detik iframe iklan belum muncul, coba host berikutnya.
+        window.addEventListener("load", function () {
+          setTimeout(function () {
+            if (document.querySelector("iframe")) return;
+            if (chain.length < 2) return;
+            var url = new URL(window.location.href);
+            url.searchParams.set("host", chain[1]);
+            url.searchParams.set("tried", tried.concat(host).join(","));
+            window.location.replace(url.toString());
+          }, 4000);
+        });
       }
     </script>
   </body>

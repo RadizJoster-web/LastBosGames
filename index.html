@@ -9,24 +9,63 @@
     <link rel="apple-touch-icon" href="/icon.webp" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0c" />
 
-    <!-- PERBAIKAN 2: Meta Tag Dasar untuk Branding -->
-    <meta property="og:site_name" content="Last bos Games" />
-    <meta name="application-name" content="Last bos Games" />
+    <!-- PERF: koneksi awal ke CDN gambar Sanity -->
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+    <link rel="dns-prefetch" href="https://cdn.sanity.io" />
 
-    <!-- PERBAIKAN 3: JSON-LD (KTP Resmi Situs untuk Google) -->
+    <!-- PERF: preload gambar hero (LCP) — hanya di halaman beranda -->
+    <script>
+      if (location.pathname === "/") {
+        var l = document.createElement("link");
+        l.rel = "preload";
+        l.as = "image";
+        l.href = "/hero%20section.webp";
+        l.setAttribute("fetchpriority", "high");
+        document.head.appendChild(l);
+      }
+    </script>
+    <meta
+      name="description"
+      content="Last Bos Games — arsip berisi ROM & game MOD pilihan yang dikurasi manual. Tautan unduhan langsung terverifikasi, emulator sumber resmi, metadata lengkap. Tanpa survey, tanpa jebakan."
+    />
+
+    <!-- Branding -->
+    <meta property="og:site_name" content="Last Bos Games" />
+    <meta name="application-name" content="Last Bos Games" />
+
+    <!-- JSON-LD (identitas situs untuk mesin pencari) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Last bos Games",
-        "alternateName": "LBG",
+        "name": "Last Bos Games",
+        "alternateName": ["LBG", "Last Bos Games"],
         "url": "https://lastbosgaames.vercel.app/"
       }
     </script>
 
+    <!-- Fonts: Anton (display), Space Grotesk (UI/body), Zen Kaku Gothic New (JP accents).
+         Dimuat non-render-blocking (media=print -> all saat onload). display=swap
+         mencegah teks tak terlihat (FOIT). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+      />
+    </noscript>
+
     <link rel="stylesheet" href="/src/index.css" />
-    <title>LBG - Last Bos Games</title>
+    <title>Last Bos Games — ROM & Game MOD Pilihan</title>
 
     <!-- Search Engine Google -->
     <meta
@@ -41,15 +80,15 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- ADSTERRA GLOBAL ADS -->
-    <!-- <script
-      defer
-      src="https://temptedrecognise.com/cc/0e/01/cc0e01caae0bf16dab0a64375114f73c.js"
-    ></script> -->
+    <!-- ADSTERRA GLOBAL ADS — URL diambil dari .env (Vite HTML env replacement).
+         defer: tidak memblokir render awal (aman untuk Core Web Vitals). -->
+    <!-- 1. Popunder -->
+    <!-- <script src="https://producercoconutgroup.com/cc/0e/01/cc0e01caae0bf16dab0a64375114f73c.js"></script> -->
+
     <!-- 2. SocialBar -->
     <script
       defer
-      src="https://temptedrecognise.com/c3/94/bb/c394bb96123a8b4c3493d0154b2b218b.js"
+      src="https://producercoconutgroup.com/c3/94/bb/c394bb96123a8b4c3493d0154b2b218b.js"
     ></script>
   </body>
 </html>

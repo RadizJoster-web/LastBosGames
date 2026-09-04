@@ -45,7 +45,7 @@ export function useFilterOptions() {
 }
 
 // Hook untuk mengambil game dengan parameter filter
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 10;
 
 export function useFilteredGames(
   search,
@@ -111,7 +111,7 @@ export function useGameDetail(slug) {
   // Query spesifik mengambil 1 game berdasarkan slug
   const query = `*[_type == "game" && slug.current == "${slug}"][0] {
     _id, title, slug, thumbnail, fullDescription,
-    platform->{name}, genre[]->{name}, region->{name}, // REVISI: Hapus []
+    platform->{name, "slug": slug.current}, genre[]->{name}, region->{name},
     language, fileSize, releaseYear, developer, publisher,
     screenshots, downloadLinks
   }`;
@@ -124,11 +124,18 @@ export function useGameDetail(slug) {
   return { game: data, isLoading, isError: error };
 }
 
-// Hook untuk mengambil daftar Emulator
+// Hook untuk mengambil daftar Emulator.
+// Dua label terpisah:
+//  - runsOn   : perangkat tempat aplikasi dijalankan (string: "pc", "mobile", ...)
+//  - emulates : konsol yang game-nya bisa dimainkan (ref -> platform)
 export function useEmulators() {
   const query = `*[_type == "emulator"] | order(name asc) {
-    _id, name, slug, logo, downloadUrl, sourceType,
-    supportedPlatform->{name}
+    _id, name, slug, logo, downloadUrl,
+    "runsOn": coalesce(runsOn, []),
+    "emulates": select(
+      defined(supportedPlatforms) && count(supportedPlatforms) > 0 => supportedPlatforms[]->{ name, "slug": slug.current },
+      []
+    )
   }`;
 
   const { data, error, isLoading } = useSWR(query, fetcher, {
@@ -149,4 +156,23 @@ export function useSupporters() {
   });
 
   return { supporters: data, isLoading, isError: error };
+}
+
+// Hook agregat: menghitung isi arsip untuk section statistik (combined count query)
+export function useCollectionStats() {
+  const query = `{
+    "games": count(*[_type == "game"]),
+    "platforms": count(*[_type == "platform"]),
+    "genres": count(*[_type == "genre"]),
+    "regions": count(*[_type == "region"]),
+    "emulators": count(*[_type == "emulator"]),
+    "supporters": count(*[_type == "supporter" && displayStatus == true])
+  }`;
+
+  const { data, error, isLoading } = useSWR(query, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+
+  return { stats: data, isLoading, isError: error };
 }
