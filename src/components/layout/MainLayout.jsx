@@ -9,7 +9,7 @@ const RouteFallback = () => (
 );
 
 const NAV_LINKS = [
-  { to: "/", label: "Beranda", jp: "始", end: true },
+  { to: "/home  ", label: "Beranda", jp: "始", end: true },
   { to: "/games", label: "Games", jp: "武器庫" },
   { to: "/emulator", label: "Emulator", jp: "装備" },
   { to: "/kodeks", label: "Kodeks", jp: "掟" },
@@ -228,7 +228,7 @@ function Footer() {
           <FooterCol
             title="Navigasi"
             links={[
-              { to: "/", label: "Beranda" },
+              { to: "/home", label: "Beranda" },
               { to: "/games", label: "Games" },
               { to: "/emulator", label: "Emulator" },
               { to: "/kodeks", label: "Kodeks" },

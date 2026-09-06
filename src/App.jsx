@@ -16,7 +16,8 @@ function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Games />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/games" element={<Games />} />
         <Route path="/game/:slug" element={<GameDetail />} />
         <Route path="/emulator" element={<Emulator />} />
