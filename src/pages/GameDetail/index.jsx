@@ -336,11 +336,19 @@ export default function GameDetail() {
                     rel="noopener noreferrer"
                     className="btn-primary w-full shrink-0 sm:w-auto"
                   >
-                    <Download size={14} />
-                    Unduh
-                    <span className="font-normal opacity-70">
-                      {link.fileSize || "?"}
-                    </span>
+                    {/^\d+([.,]\d+)?\s*(b|kb|mb|gb|tb)$/i.test(
+                      String(link.fileSize || "").trim(),
+                    ) ? (
+                      <>
+                        <Download size={14} />
+                        Unduh
+                        <span className="font-normal opacity-70">
+                          {link.fileSize}
+                        </span>
+                      </>
+                    ) : (
+                      <span>{link.fileSize}</span>
+                    )}
                   </a>
                 </li>
               ))}
