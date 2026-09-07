@@ -13,7 +13,8 @@ export function useRecentGames() {
     thumbnail,
     platform->{name}, 
     genre[]->{name},
-    region->{name}
+    region->{name},
+    popularityScore
   }`;
 
   const { data, error, isLoading } = useSWR(query, fetcher, {

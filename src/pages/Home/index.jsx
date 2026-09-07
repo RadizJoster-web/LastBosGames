@@ -27,7 +27,11 @@ export default function Home() {
 
       <StatsSection stats={stats} />
 
-      <LatestDropsSection games={games} isLoading={isLoading} isError={isError} />
+      <LatestDropsSection
+        games={games}
+        isLoading={isLoading}
+        isError={isError}
+      />
 
       <CtaSection />
     </>
